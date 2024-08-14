@@ -4,7 +4,9 @@ import Home from './components/Home';
 import Contact from './components/Contact';
 import Cart from './components/Cart';
 import ProductDetail from './components/ProductDetail'; // Import component mới
-import './App.css'
+import AdminDashboard from './components/ShoeAdmin'; // Import trang quản lý giày
+import AddShoe from './components/AddShoeModal'; // Import trang thêm giày
+import './App.css';
 
 function App() {
   return (
@@ -23,6 +25,9 @@ function App() {
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/contact">Contact</Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/admin">Admin Dashboard</Link>
                 </li>
               </ul>
 
@@ -44,7 +49,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="product/:id" element={<ProductDetail />} /> {/* Route cho chi tiết sản phẩm */}
+          <Route path="/product/:id" element={<ProductDetail />} /> {/* Route cho chi tiết sản phẩm */}
+          <Route path="/admin" element={<AdminDashboard />} /> {/* Route cho trang quản lý */}
+          <Route path="/admin/add-shoe" element={<AddShoe />} /> {/* Route cho trang thêm giày */}
         </Routes>
       </main>
 

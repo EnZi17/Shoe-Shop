@@ -3,12 +3,11 @@ import { useParams } from 'react-router-dom';
 import '../css/ProductDetail.css';
 
 function ProductDetail() {
-  const { id } = useParams(); // Lấy id từ URL
+  const { id } = useParams(); 
   const [shoe, setShoe] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
-    // Fetch chi tiết sản phẩm từ API
     fetch(`http://localhost:9000/api/shoes/${id}`)
       .then(response => response.json())
       .then(data => setShoe(data))
@@ -23,6 +22,20 @@ function ProductDetail() {
     setSelectedImage(null);
   };
 
+  const addToCart = () => {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const index = cart.findIndex(item => item._id === shoe._id);
+
+    if (index !== -1) {
+      cart[index].quantity += 1; // Tăng số lượng nếu sản phẩm đã có trong giỏ hàng
+    } else {
+      cart.push({ ...shoe, quantity: 1 }); // Thêm sản phẩm mới vào giỏ hàng
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`${shoe.name} has been added to your cart!`);
+  };
+
   if (!shoe) {
     return <div>Loading...</div>;
   }
@@ -31,7 +44,6 @@ function ProductDetail() {
     <div className="container product-detail">
       <div className="row">
         <div className="col-md-6">
-          {/* Hiển thị các hình ảnh trong 3 hàng, mỗi hàng 2 cột */}
           <div className="row">
             <div className="col-6 mb-3">
               <img src={shoe.thum} alt={shoe.name} className="img-fluid" onClick={() => openModal(shoe.thum)} />
@@ -68,15 +80,14 @@ function ProductDetail() {
           </div>
         </div>
         <div className="col-md-6">
-          {/* Thông tin sản phẩm */}
           <h1>{shoe.name}</h1>
           <p><strong>Price:</strong> ${shoe.price}</p>
+          <p><strong>Quantity:</strong> {shoe.quantity}</p> {/* Hiển thị số lượng */}
           <p><strong>Description:</strong> {shoe.description}</p>
-          <button className="btn btn-primary">Add to Cart</button>
+          <button className="btn btn-primary" onClick={addToCart}>Add to Cart</button>
         </div>
       </div>
 
-      {/* Modal để hiển thị ảnh lớn */}
       {selectedImage && (
         <div className="modal fade show" style={{ display: 'block' }} onClick={closeModal}>
           <div className="modal-dialog modal-dialog-centered">

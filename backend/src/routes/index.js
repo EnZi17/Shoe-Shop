@@ -2,10 +2,35 @@ const express = require('express');
 const router = express.Router();
 const Shoe = require('../models/shoe');
 
+
+// Endpoint cập nhật giày
+router.put('/shoes/:id', async (req, res) => {
+  try {
+    console.log(req.params.id)
+    console.log(req.body+'ssssssssssss')
+    const updatedShoe = await Shoe.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    if (!updatedShoe) return res.status(404).send('Shoe not found');
+    res.json(updatedShoe);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+// Endpoint tạo giày mới
+router.post('/shoes', async (req, res) => {
+  try {
+    const newShoe = new Shoe(req.body);
+    const savedShoe = await newShoe.save();
+    res.status(201).json(savedShoe);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
+
 // Endpoint tìm kiếm giày theo ID
 router.get('/shoes/:id', async (req, res) => {
   try {
     const shoe = await Shoe.findById(req.params.id);
+    if (!shoe) return res.status(404).send('Shoe not found');
     res.json(shoe);
   } catch (err) {
     res.status(500).send(err);
@@ -15,9 +40,9 @@ router.get('/shoes/:id', async (req, res) => {
 // Endpoint lấy danh sách giày và hỗ trợ tìm kiếm theo tên
 router.get('/shoes', async (req, res) => {
   try {
-    const searchTerm = req.query.search || ''; // Lấy từ khóa tìm kiếm từ query string
+    const searchTerm = req.query.search || '';
     const shoes = await Shoe.find({
-      name: new RegExp(searchTerm, 'i') // Tìm kiếm không phân biệt chữ hoa chữ thường
+      name: new RegExp(searchTerm, 'i')
     });
     res.json(shoes);
   } catch (err) {
@@ -25,5 +50,17 @@ router.get('/shoes', async (req, res) => {
   }
 });
 
-module.exports = router;
+// Endpoint xóa giày theo ID
+router.delete('/shoes/:id', async (req, res) => {
+  try {
+    const shoe = await Shoe.findByIdAndDelete(req.params.id);
+    if (!shoe) return res.status(404).send('Shoe not found');
+    res.status(204).send(); // No content
+  } catch (err) {
+    res.status(500).send(err);
+  }
+});
 
+
+
+module.exports = router;
