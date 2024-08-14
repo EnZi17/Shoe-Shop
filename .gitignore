@@ -1,0 +1,91 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Output of 'npm pack'
+*.tgz
+
+# Logs
+logs
+*.log
+logs/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Webpack output
+dist/
+
+# Ignore .env files for environment variables
+.env
+.env.local
+.env.*.local
+
+# Ignore editor-specific files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Ignore compiled TypeScript files if any
+*.tsbuildinfo
+
+# Ignore coverage files (if using a testing tool like Jest)
+coverage/
+
+# Ignore build directories for both frontend and backend
+/build/
+out/
+
+# Ignore database files
+*.sqlite3
+*.db
+*.sqlite
+
+# Ignore Python-specific files (if backend uses Python)
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+*.egg-info/
+lib/
+lib64/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Ignore Java-specific files (if backend uses Java)
+target/
+*.class
+*.jar
+*.war
+*.ear
+
+# Ignore PHP-specific files (if backend uses PHP)
+vendor/
+*.phpunit.result.cache
+
+# Ignore Go-specific files (if backend uses Go)
+bin/
+*.exe
+
+# Ignore Rust-specific files (if backend uses Rust)
+/target/
+
+# Ignore Ruby-specific files (if backend uses Ruby)
+.ruby-version
+.ruby-gemset
+.bundle/
+vendor/
