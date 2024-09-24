@@ -21,6 +21,9 @@ db.once('open', function() {
   console.log("Kết nối thành công tới MongoDB!");
 });
 
+app.use(cors({
+  origin: 'https://shoe-shop-qlly.onrender.com'  // Địa chỉ frontend của bạn
+}));
 
 // Sử dụng router chính
 app.use('/api', indexRouter);
