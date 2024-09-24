@@ -14,7 +14,7 @@ function ShoeAdmin() {
   const [shoeToDelete, setShoeToDelete] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:9000/api/shoes')
+    axios.get('https://shoe-shop-backend-qm9w.onrender.com/api/shoes')
       .then(response => setShoes(response.data))
       .catch(error => console.error('Error fetching shoes:', error));
   }, []);
@@ -24,7 +24,7 @@ function ShoeAdmin() {
   };
 
   const handleEditShoe = () => {
-    axios.get(`http://localhost:9000/api/shoes/${editShoe._id}`, editShoe)
+    axios.get(`https://shoe-shop-backend-qm9w.onrender.com/api/shoes/${editShoe._id}`, editShoe)
       .then(response => {
         setShoes(shoes.map(shoe => (shoe._id === response.data._id ? response.data : shoe)));
         setShowEditModal(false);
@@ -36,7 +36,7 @@ function ShoeAdmin() {
 
   const handleDeleteShoe = () => {
     if (shoeToDelete) {
-      axios.delete(`http://localhost:9000/api/shoes/${shoeToDelete}`)
+      axios.delete(`https://shoe-shop-backend-qm9w.onrender.com/api/shoes/${shoeToDelete}`)
         .then(() => {
           setShoes(shoes.filter(shoe => shoe._id !== shoeToDelete));
           setShoeToDelete(null);
