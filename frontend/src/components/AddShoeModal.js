@@ -17,7 +17,7 @@ function AddShoeModal({ show, onClose, onAddShoe }) {
   });
 
   const handleAddShoe = () => {
-    axios.post('http://localhost:9000/api/shoes', newShoe)
+    axios.post('https://shoe-shop-backend-qm9w.onrender.com/api/shoes', newShoe)
       .then(response => {
         onAddShoe(response.data);
         onClose();
