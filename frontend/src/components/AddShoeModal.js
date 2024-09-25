@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
-import '../css/AddShoeModal.css'; 
+import '../css/AddShoeModal.css';
 
 function AddShoeModal({ show, onClose, onAddShoe }) {
   const [newShoe, setNewShoe] = useState({
@@ -38,74 +38,41 @@ function AddShoeModal({ show, onClose, onAddShoe }) {
 
   return (
     <Modal show={show} onHide={onClose} centered size="lg" className="custom-modal">
-      <Modal.Header closeButton>
-        <Modal.Title>Add New Shoe</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
+      <Modal.Body className="modal-body">
+        <h5 className="modal-title">Add New Shoe</h5>
         <Form>
-          <Form.Group className="mb-3">
-            <Form.Label>Shoe Name</Form.Label>
-            <Form.Control 
-              type="text" 
-              placeholder="Enter shoe name" 
-              value={newShoe.name} 
-              onChange={e => setNewShoe({ ...newShoe, name: e.target.value })}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Thumbnail URL</Form.Label>
-            <Form.Control 
-              type="text" 
-              placeholder="Enter thumbnail URL" 
-              value={newShoe.thum} 
-              onChange={e => setNewShoe({ ...newShoe, thum: e.target.value })}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Price</Form.Label>
-            <Form.Control 
-              type="number" 
-              placeholder="Enter price" 
-              value={newShoe.price} 
-              onChange={e => setNewShoe({ ...newShoe, price: e.target.value })}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3">
-            <Form.Label>Quantity</Form.Label>
-            <Form.Control 
-              type="number" 
-              placeholder="Enter quantity" 
-              value={newShoe.quantity} 
-              onChange={e => setNewShoe({ ...newShoe, quantity: e.target.value })}
-              required
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3">
+          {['name', 'thum', 'price', 'quantity'].map((field, index) => (
+            <Form.Group key={index} className="form-group">
+              <Form.Label>{field === 'thum' ? 'Thumbnail URL' : field.charAt(0).toUpperCase() + field.slice(1)}</Form.Label>
+              <Form.Control
+                type={field === 'price' || field === 'quantity' ? 'number' : 'text'}
+                placeholder={`Enter ${field}`}
+                value={newShoe[field]}
+                onChange={e => setNewShoe({ ...newShoe, [field]: e.target.value })}
+                required
+                className="form-control"
+              />
+            </Form.Group>
+          ))}
+          <Form.Group className="form-group">
             <Form.Label>Picture URLs</Form.Label>
             {['pic1', 'pic2', 'pic3', 'pic4', 'pic5'].map((pic, index) => (
-              <Form.Control 
-                key={index} 
-                type="text" 
-                placeholder={`Enter picture ${index + 1} URL`} 
-                value={newShoe[pic]} 
+              <Form.Control
+                key={index}
+                type="text"
+                placeholder={`Enter picture ${index + 1} URL`}
+                value={newShoe[pic]}
                 onChange={e => setNewShoe({ ...newShoe, [pic]: e.target.value })}
-                className="mb-2"
+                className="form-control mb-2"
               />
             ))}
           </Form.Group>
         </Form>
+        <div className="modal-footer">
+          <Button variant="secondary" onClick={onClose}>Close</Button>
+          <Button variant="primary" onClick={handleAddShoe}>Save Changes</Button>
+        </div>
       </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={onClose}>Close</Button>
-        <Button variant="primary" onClick={handleAddShoe}>Save Changes</Button>
-      </Modal.Footer>
     </Modal>
   );
 }

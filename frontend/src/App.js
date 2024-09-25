@@ -15,11 +15,19 @@ function App() {
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
           <div className="container-fluid">
             <Link className="navbar-brand" to="/">ShoeShop</Link>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button 
+              className="navbar-toggler" 
+              type="button" 
+              data-bs-toggle="collapse" 
+              data-bs-target="#navbarNav" 
+              aria-controls="navbarNav" 
+              aria-expanded="false" 
+              aria-label="Toggle navigation"
+            >
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
-              <ul className="navbar-nav navbar-nav-left">
+              <ul className="navbar-nav me-auto"> {/* Sử dụng 'me-auto' để đẩy sang bên trái */}
                 <li className="nav-item">
                   <Link className="nav-link active" to="/">Home</Link>
                 </li>
@@ -30,15 +38,13 @@ function App() {
                   <Link className="nav-link" to="/admin">Admin Dashboard</Link>
                 </li>
               </ul>
-
-              <ul className="navbar-nav navbar-nav-right">
+              <ul className="navbar-nav"> {/* Chỉ cần một danh sách cho nav bên phải */}
                 <li className="nav-item">
                   <Link className="nav-link" to="/cart">
                     <img src="/cart.png" alt="Cart" style={{ width: '24px', height: '24px' }} />
                   </Link>
                 </li>
               </ul>
-
             </div>
           </div>
         </nav>
@@ -72,7 +78,7 @@ function App() {
             </div>
             <div className="col-md-4">
               <h5>Contact Us</h5>
-              <p>Email: info@shoeshop.com</p>
+              <p>Email: vominhthong117@gmail.com</p>
               <p>Phone: +84 123 456 789</p>
               <p>Address: 123 Street, City, Country</p>
             </div>

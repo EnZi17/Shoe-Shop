@@ -8,9 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI ,{ 
-  useUnifiedTopology: true
-});
+mongoose.connect(process.env.MONGO_URI || "mongodb+srv://enzi:thoenzi117@cluster0.uomnk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
 
 const db = mongoose.connection;
 
@@ -22,7 +20,7 @@ db.once('open', function() {
 
 app.use('/api', indexRouter);
 
-const PORT =  process.env.PORT;
+const PORT =  process.env.PORT||9000;
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
