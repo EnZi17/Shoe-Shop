@@ -8,8 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI, { //"mongodb+srv://enzi:thoenzi117@cluster0.uomnk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-  useNewUrlParser: true,
+mongoose.connect(process.env.MONGO_URI, { 
   useUnifiedTopology: true
 });
 
@@ -18,12 +17,10 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 db.once('open', function() {
-  console.log("Kết nối thành công tới MongoDB!");
+  console.log("MongoDB connected!");
 });
 
-app.use(cors({
-  origin: 'https://shoe-shop-qlly.onrender.com'  
-}));
+
 
 app.use('/api', indexRouter);
 
