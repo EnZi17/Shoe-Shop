@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI, { 
+mongoose.connect(process.env.MONGO_URI ,{ 
   useUnifiedTopology: true
 });
 
@@ -22,9 +22,9 @@ db.once('open', function() {
 
 app.use('/api', indexRouter);
 
-// const PORT =  9000;
+const PORT =  process.env.PORT;
 
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
