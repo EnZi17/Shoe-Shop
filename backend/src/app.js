@@ -20,14 +20,11 @@ db.once('open', function() {
   console.log("MongoDB connected!");
 });
 
-
-
 app.use('/api', indexRouter);
 
+// const PORT =  9000;
 
-const PORT =  9000;
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
 
