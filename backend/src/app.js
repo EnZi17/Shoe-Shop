@@ -1,4 +1,4 @@
-require('dotenv').config({ path: './src/.env' });
+
 const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors');
@@ -8,7 +8,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect("mongodb+srv://enzi:thoenzi117@cluster0.uomnk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0", {
+mongoose.connect(process.env.MONGO_URI, { //"mongodb+srv://enzi:thoenzi117@cluster0.uomnk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
@@ -22,10 +22,9 @@ db.once('open', function() {
 });
 
 app.use(cors({
-  origin: 'https://shoe-shop-qlly.onrender.com'  // Địa chỉ frontend của bạn
+  origin: 'https://shoe-shop-qlly.onrender.com'  
 }));
 
-// Sử dụng router chính
 app.use('/api', indexRouter);
 
 

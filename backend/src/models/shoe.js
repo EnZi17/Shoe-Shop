@@ -3,6 +3,7 @@ const Schema = mongoose.Schema
 
 const ShoeSchema = new Schema({
     name:String,
+    quantity: Number,
     thum: String,
     price: Number,
     pic1:String,
@@ -10,7 +11,6 @@ const ShoeSchema = new Schema({
     pic3:String,
     pic4:String,
     pic5:String,
-    quantity: Number,
 })
 
 const Shoe = mongoose.model('Shoe',ShoeSchema)

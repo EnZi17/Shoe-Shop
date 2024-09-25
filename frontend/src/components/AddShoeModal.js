@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
-import '../css/AddShoeModal.css'; // Đảm bảo CSS đã được tạo
+import '../css/AddShoeModal.css'; 
 
 function AddShoeModal({ show, onClose, onAddShoe }) {
   const [newShoe, setNewShoe] = useState({

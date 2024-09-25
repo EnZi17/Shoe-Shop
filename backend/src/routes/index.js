@@ -6,8 +6,6 @@ const Shoe = require('../models/shoe');
 // Endpoint cập nhật giày
 router.put('/shoes/:id', async (req, res) => {
   try {
-    console.log(req.params.id)
-    console.log(req.body+'ssssssssssss')
     const updatedShoe = await Shoe.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!updatedShoe) return res.status(404).send('Shoe not found');
     res.json(updatedShoe);
@@ -15,6 +13,7 @@ router.put('/shoes/:id', async (req, res) => {
     res.status(500).send(err);
   }
 });
+
 // Endpoint tạo giày mới
 router.post('/shoes', async (req, res) => {
   try {
