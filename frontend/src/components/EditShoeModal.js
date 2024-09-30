@@ -24,7 +24,7 @@ function EditShoeModal({ show, onClose, shoe, onSave }) {
 
   const handleSave = () => {
     
-    axios.put(`https://shoe-shop-backend-qm9w.onrender.com/api/shoes/${editedShoe._id}`, editedShoe)
+    axios.put(`https://shoe-shop-backend-qm9w.onrender.com/shoes/${editedShoe._id}`, editedShoe)
       .then(response => {
         
         onSave(response.data); // Cập nhật danh sách giày trong component cha
