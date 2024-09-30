@@ -18,7 +18,7 @@ db.once('open', function() {
   console.log("MongoDB connected!");
 });
 
-app.use('api/', indexRouter);
+app.use('/', indexRouter);
 
 const PORT =  process.env.PORT||9000;
 

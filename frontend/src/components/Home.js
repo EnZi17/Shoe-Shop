@@ -8,7 +8,7 @@ function Home() {
 
   useEffect(() => {
     // Fetch danh sách giày từ API với từ khóa tìm kiếm
-    fetch(`https://shoe-shop-backend-qm9w.onrender.com/api/shoes?search=${searchTerm}`)
+    fetch(`https://shoe-shop-backend-qm9w.onrender.com/shoes?search=${searchTerm}`)
       .then(response => response.json())
       .then(data => setShoes(data))
       .catch(error => console.error('Error fetching shoes:', error));
