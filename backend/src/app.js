@@ -20,6 +20,10 @@ db.once('open', function() {
 
 app.use('/', indexRouter);
 
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
+});
+
 const PORT =  process.env.PORT||9000;
 
 app.listen(PORT, () => {
