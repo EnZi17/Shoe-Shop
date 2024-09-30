@@ -1,4 +1,4 @@
-
+const path = require('path');
 const mongoose = require('mongoose');
 const express = require('express');
 const cors = require('cors');
@@ -19,6 +19,8 @@ db.once('open', function() {
 });
 
 app.use('/', indexRouter);
+
+app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
