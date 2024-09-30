@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; // Đảm bảo rằng Bootstrap được import
+import '../css/Cart.css';
 
 function Cart() {
   const [cart, setCart] = useState([]);
@@ -10,13 +11,8 @@ function Cart() {
   }, []);
 
   const removeFromCart = (id) => {
-    // Lọc các sản phẩm không có id giống với id của sản phẩm cần xóa
     let updatedCart = cart.filter(item => item._id !== id);
-    
-    // Cập nhật trạng thái giỏ hàng
     setCart(updatedCart);
-    
-    // Lưu giỏ hàng đã cập nhật vào localStorage
     localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
@@ -34,7 +30,9 @@ function Cart() {
           {cart.map(item => (
             <div key={item._id} className="col-md-4 mb-4">
               <div className="card">
-                <img src={item.thum} alt={item.name} className="card-img-top" style={{ maxHeight: '200px', objectFit: 'cover' }} />
+                <div className="image-container">
+                  <img src={item.thum} alt={item.name} className="card-img-top" />
+                </div>
                 <div className="card-body">
                   <h5 className="card-title">{item.name}</h5>
                   <p className="card-text">Price: ${item.price.toFixed(2)}</p>

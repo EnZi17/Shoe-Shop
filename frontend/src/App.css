@@ -34,7 +34,7 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: 2.2em; /* Chiều cao tương đương với 2 dòng */
+  height: 2.2em;
 }
 
 @keyframes App-logo-spin {
@@ -45,6 +45,7 @@
     transform: rotate(360deg);
   }
 }
+
 /* Căn chỉnh các mục trong thanh điều hướng */
 .navbar-nav {
   display: flex;
@@ -52,10 +53,43 @@
 }
 
 .navbar-nav-left {
-  margin-right: auto; /* Đẩy các mục sang bên trái */
+  margin-right: auto;
 }
 
 .navbar-nav-right {
-  display: flex; /* Để các mục bên phải xếp theo hàng ngang */
+  display: flex;
 }
 
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .App-header {
+    font-size: calc(8px + 2vmin); /* Giảm kích thước chữ trên màn hình nhỏ */
+  }
+
+  .App-logo {
+    height: 30vmin; /* Giảm kích thước logo trên màn hình nhỏ */
+  }
+
+  .shoe-name {
+    height: 3.2em; /* Tăng chiều cao cho nhiều dòng hơn nếu cần thiết */
+  }
+
+  .navbar-nav {
+    flex-direction: column; /* Đổi hướng xếp hàng trên màn hình nhỏ */
+    align-items: flex-start; /* Căn trái các mục trong thanh điều hướng */
+  }
+  
+  .navbar-nav-right {
+    margin-top: 1rem; /* Thêm khoảng cách trên màn hình nhỏ */
+  }
+}
+
+@media (max-width: 480px) {
+  .App-header {
+    font-size: calc(6px + 2vmin); /* Giảm kích thước chữ thêm cho màn hình cực nhỏ */
+  }
+  
+  .shoe-name {
+    height: 4.5em; /* Cho phép nhiều dòng hơn cho tên giày trên màn hình rất nhỏ */
+  }
+}

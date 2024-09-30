@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Table } from 'react-bootstrap';
-import AddShoeModal from './AddShoeModal'; // Import AddShoeModal
-import EditShoeModal from './EditShoeModal'; // Import EditShoeModal
-import ConfirmationModal from './ConfirmationModal'; // Import ConfirmationModal
+import AddShoeModal from './AddShoeModal'; 
+import EditShoeModal from './EditShoeModal'; 
+import ConfirmationModal from './ConfirmationModal'; 
 
 function ShoeAdmin() {
   const [shoes, setShoes] = useState([]);

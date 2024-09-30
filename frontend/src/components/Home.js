@@ -21,7 +21,7 @@ function Home() {
   return (
     <div className="container">
       <main>
-        <section className="featured-products">
+        <section className="featured-shoes">
           <input
             type="text"
             placeholder="Search by name..."
@@ -33,7 +33,7 @@ function Home() {
             {shoes.map(shoe => (
               <div key={shoe._id} className="col-md-3">
                 <div className="card mb-4">
-                  <Link to={`/product/${shoe._id}`}>
+                  <Link to={`/shoes/${shoe._id}`}>
                     <img src={shoe.thum} className="card-img-top" alt={shoe.name} />
                   </Link>
                   <div className="card-body">

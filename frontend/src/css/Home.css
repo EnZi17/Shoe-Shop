@@ -1,30 +1,22 @@
 .card-title {
     display: -webkit-box;
-    -webkit-line-clamp: 1; /* Giới hạn số dòng hiển thị */
     -webkit-box-orient: vertical;
-    overflow: hidden; /* Ẩn nội dung thừa */
-    text-overflow: ellipsis; /* Hiển thị dấu chấm (...) nếu quá dòng */
-    margin-bottom: 0.5rem; /* Khoảng cách dưới tên sản phẩm */
+    overflow: hidden; 
+    text-overflow: ellipsis; 
+    margin-bottom: 0.5rem; 
   }
 
-  /* Home.css */
 
-/* Căn chỉnh thanh tìm kiếm *
-
-/* Home.css */
-
-/* Căn chỉnh thanh tìm kiếm */
 .search-input {
-  max-width: 300px; /* Điều chỉnh chiều rộng tối đa của thanh tìm kiếm */
-  margin-top: 20px; /* Khoảng cách giữa thanh tìm kiếm và phần trên */
-  margin-left: auto; /* Dịch qua phải */
-  margin-right: 5px; /* Căn giữa nếu cần */
-  display: block; /* Đảm bảo rằng thanh tìm kiếm được hiển thị dưới dạng block để căn chỉnh dễ dàng */
+  max-width: 300px; 
+  margin-top: 20px; 
+  margin-left: auto;
+  margin-right: 5px; 
+  display: block; 
 }
 
-/* Khoảng cách giữa phần tìm kiếm và các sản phẩm */
-.featured-products {
-  margin-top: 40px; /* Khoảng cách giữa thanh tìm kiếm và danh sách sản phẩm */
+.featured-shoes {
+  margin-top: 40px; 
 }
 
   

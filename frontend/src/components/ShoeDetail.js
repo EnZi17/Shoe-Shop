@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import '../css/ProductDetail.css';
+import '../css/ShoeDetail.css';
 
-function ProductDetail() {
+function ShoeDetail() {
   const { id } = useParams(); 
   const [shoe, setShoe] = useState(null);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -27,9 +27,9 @@ function ProductDetail() {
     const index = cart.findIndex(item => item._id === shoe._id);
 
     if (index !== -1) {
-      cart[index].quantity += 1; // Tăng số lượng nếu sản phẩm đã có trong giỏ hàng
+      cart[index].quantity += 1; 
     } else {
-      cart.push({ ...shoe, quantity: 1 }); // Thêm sản phẩm mới vào giỏ hàng
+      cart.push({ ...shoe, quantity: 1 }); 
     }
 
     localStorage.setItem('cart', JSON.stringify(cart));
@@ -41,7 +41,7 @@ function ProductDetail() {
   }
 
   return (
-    <div className="container product-detail">
+    <div className="container shoe-detail">
       <div className="row">
         <div className="col-md-6">
           <div className="row">
@@ -82,7 +82,7 @@ function ProductDetail() {
         <div className="col-md-6">
           <h1>{shoe.name}</h1>
           <p><strong>Price:</strong> ${shoe.price}</p>
-          <p><strong>Quantity:</strong> {shoe.quantity}</p> {/* Hiển thị số lượng */}
+          <p><strong>Quantity:</strong> {shoe.quantity}</p> {}
           <p><strong>Description:</strong> {shoe.description}</p>
           <button className="btn btn-primary" onClick={addToCart}>Add to Cart</button>
         </div>
@@ -108,4 +108,4 @@ function ProductDetail() {
   );
 }
 
-export default ProductDetail;
+export default ShoeDetail;
