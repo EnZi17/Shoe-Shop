@@ -4,12 +4,20 @@ import { Link } from 'react-router-dom';
 function Header() {
   const [cart, setCart] = useState([]);
 
-  useEffect(() => {
+  const updateCart = () => {
     const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
     setCart(cartItems);
+  };
+
+  useEffect(() => {
+    updateCart(); 
+    window.addEventListener('storage', updateCart);
+    return () => {
+      window.removeEventListener('storage', updateCart);
+    };
   }, []);
 
-  const cartImage = cart.length === 0 ? '/empty-cart.png' : '/cart.png'; // Đường dẫn đến ảnh giỏ hàng rỗng
+  const cartImage = cart.length === 0 ? '/empty-cart.png' : '/cart.png';
 
   return (
     <header>

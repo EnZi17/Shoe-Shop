@@ -46,7 +46,6 @@
   }
 }
 
-/* Căn chỉnh các mục trong thanh điều hướng */
 .navbar-nav {
   display: flex;
   align-items: center;
@@ -60,36 +59,35 @@
   display: flex;
 }
 
-/* Responsive Styles */
 @media (max-width: 768px) {
   .App-header {
-    font-size: calc(8px + 2vmin); /* Giảm kích thước chữ trên màn hình nhỏ */
+    font-size: calc(8px + 2vmin); 
   }
 
   .App-logo {
-    height: 30vmin; /* Giảm kích thước logo trên màn hình nhỏ */
+    height: 30vmin; 
   }
 
   .shoe-name {
-    height: 3.2em; /* Tăng chiều cao cho nhiều dòng hơn nếu cần thiết */
+    height: 3.2em; 
   }
 
   .navbar-nav {
-    flex-direction: column; /* Đổi hướng xếp hàng trên màn hình nhỏ */
-    align-items: flex-start; /* Căn trái các mục trong thanh điều hướng */
+    flex-direction: column; 
+    align-items: flex-start;
   }
   
   .navbar-nav-right {
-    margin-top: 1rem; /* Thêm khoảng cách trên màn hình nhỏ */
+    margin-top: 1rem;
   }
 }
 
 @media (max-width: 480px) {
   .App-header {
-    font-size: calc(6px + 2vmin); /* Giảm kích thước chữ thêm cho màn hình cực nhỏ */
+    font-size: calc(6px + 2vmin); 
   }
   
   .shoe-name {
-    height: 4.5em; /* Cho phép nhiều dòng hơn cho tên giày trên màn hình rất nhỏ */
+    height: 4.5em;
   }
 }

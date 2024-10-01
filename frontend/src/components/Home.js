@@ -7,12 +7,11 @@ function Home() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    // Fetch danh sách giày từ API với từ khóa tìm kiếm
     fetch(`https://shoe-shop-backend-qm9w.onrender.com/shoes?search=${searchTerm}`)
       .then(response => response.json())
       .then(data => setShoes(data))
       .catch(error => console.error('Error fetching shoes:', error));
-  }, [searchTerm]); // Gọi lại khi từ khóa tìm kiếm thay đổi
+  }, [searchTerm]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
