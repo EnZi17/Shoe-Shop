@@ -21,17 +21,6 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/add-shoe" element={<AddShoe />} />
         </Routes>
-        <Switch>
-          <Route path="/cart">
-            <Cart />
-          </Route>
-          <Route path="/shoes/:id">
-            <ShoeDetail />
-          </Route>
-          <Route path="/admin">
-            <AdminDashboard />
-          </Route>
-        </Switch>
       </main>
       <Footer />
     </Router>
