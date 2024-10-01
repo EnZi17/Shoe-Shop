@@ -16,7 +16,7 @@ function Header() {
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">ShoeShop</Link>
-          
+          <Link className="navbar-brand" to="/admin">Admin</Link>
           <Link className="nav-link" to="/cart">
             <img src={cartImage} alt="Cart" style={{ width: '24px', height: '24px' }} />
           </Link>
