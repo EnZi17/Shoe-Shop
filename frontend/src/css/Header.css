@@ -1,0 +1,54 @@
+header {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .navbar {
+    padding: 10px 20px;
+  }
+  
+  .navbar-brand {
+    font-size: 1.5rem;
+    color: #333;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-right: 15px;
+  }
+  
+  .navbar-brand:hover {
+    color: #007bff;
+  }
+  
+  .nav-link {
+    color: #333;
+    margin-left: 15px;
+    text-decoration: none;
+  }
+  
+  .nav-link:hover {
+    color: #007bff;
+  }
+  
+  .nav-link img {
+    transition: transform 0.2s ease;
+  }
+  
+  .nav-link img:hover {
+    transform: scale(1.1);
+  }
+  
+  .navbar-brand + .navbar-brand {
+    margin-left: auto;
+    font-size: 1rem;
+    font-weight: normal;
+  }
+  
+  @media (max-width: 768px) {
+    .navbar-brand {
+      font-size: 1.25rem;
+    }
+  
+    .nav-link {
+      font-size: 0.9rem;
+    }
+  }
+  
