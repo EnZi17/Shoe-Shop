@@ -60,6 +60,21 @@ router.delete('/shoes/:id', async (req, res) => {
   }
 });
 
+// Middleware kiểm tra mật khẩu
+const checkPassword = (req, res, next) => {
+  const { password } = req.body; // Lấy mật khẩu từ yêu cầu
+  const adminPassword = process.env.ADMIN_PASSWORD; // Lưu mật khẩu trong biến môi trường
+  
+  if (password === adminPassword) {
+      next(); // Cho phép truy cập
+  } else {
+      res.status(401).json({ message: 'Unauthorized access' });
+  }
+};
 
+// Route Admin
+router.post('/admin', checkPassword, (req, res) => {
+  res.json({ message: 'Welcome to admin page' });
+});
 
 module.exports = router;
