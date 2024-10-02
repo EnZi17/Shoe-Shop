@@ -9,8 +9,6 @@ header {
   .navbar-brand {
     font-size: 1.5rem;
     color: #333;
-    font-weight: bold;
-    text-transform: uppercase;
     margin-right: 15px;
   }
   
