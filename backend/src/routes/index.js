@@ -63,7 +63,7 @@ router.delete('/shoes/:id', async (req, res) => {
 // Middleware kiểm tra mật khẩu
 const checkPassword = (req, res, next) => {
   const { password } = req.body; // Lấy mật khẩu từ yêu cầu
-  const adminPassword = process.env.ADMIN_PASSWORD; // Lưu mật khẩu trong biến môi trường
+  const adminPassword = process.env.ADMIN_PASSWORD||'1'; // Lưu mật khẩu trong biến môi trường
   
   if (password === adminPassword) {
       next(); // Cho phép truy cập
