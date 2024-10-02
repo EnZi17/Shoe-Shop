@@ -73,7 +73,7 @@ const checkPassword = (req, res, next) => {
 };
 
 // Route Admin
-router.post('/admin', checkPassword, (req, res) => {
+router.post('/login', checkPassword, (req, res) => {
   res.json({ message: 'Welcome to admin page' });
 });
 
