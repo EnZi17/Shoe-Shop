@@ -1,6 +1,55 @@
 const express = require('express');
 const router = express.Router();
 const Shoe = require('../models/shoe');
+const Order = require('../models/order');
+
+// POST /orders
+router.post('/orders', async (req, res) => {
+  try {
+    const { items, phone, address, shippingCode } = req.body;
+
+    // Tạo đối tượng đơn hàng
+    const order = new Order({
+      items,
+      phone,
+      address,
+      shippingCode,
+    });
+
+    // Lưu đơn hàng vào cơ sở dữ liệu
+    const savedOrder = await order.save();
+
+    // Trả về thông tin đơn hàng, bao gồm cả ngày giờ tạo
+    res.status(201).json({
+      message: 'Order placed successfully',
+      orderid: savedOrder._id, // Trả về _id của đơn hàng như orderid
+      createdAt: savedOrder.createdAt, // Trả về ngày giờ tạo đơn hàng
+      order: savedOrder,
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to place order', error });
+  }
+});
+
+
+// GET /orders/:id
+router.get('/orders/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Tìm kiếm đơn hàng theo _id
+    const order = await Order.findById(id);
+
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    res.status(200).json(order);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to retrieve order', error });
+  }
+});
+
 
 
 // Endpoint cập nhật giày

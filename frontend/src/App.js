@@ -7,7 +7,8 @@ import AdminDashboard from './components/ShoeAdmin';
 import AddShoe from './components/AddShoeModal';
 import Header from './components/Header'; 
 import Footer from './components/Footer'; 
-import Login from './components/AdminLogin'
+import Login from './components/AdminLogin';
+import Order from './components/Order';
 import './App.css';
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/admin/add-shoe" element={<AddShoe />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/order" element={<Order />} />
         </Routes>
       </main>
       <Footer />
