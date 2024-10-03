@@ -8,7 +8,7 @@ const AdminLogin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://shoe-shop-backend-qm9w.onrender.comkend-qm9w.onrender.com/login', { password });
+            const response = await axios.post('https://shoe-shop-qlly.onrender.com/login', { password });
             if (response.data.message === 'Welcome to admin page') {
                 // Chuyển hướng đến trang Admin
                 window.location.href = '/admin';
