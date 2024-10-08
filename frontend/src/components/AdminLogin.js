@@ -22,11 +22,11 @@ const AdminLogin = () => {
         <form onSubmit={handleSubmit}>
             <input
                 type="password"
-                placeholder="Nhập mật khẩu"
+                placeholder="Input Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
             />
-            <button type="submit">Đăng nhập</button>
+            <button type="submit">Login</button>
             {error && <p>{error}</p>}
         </form>
     );

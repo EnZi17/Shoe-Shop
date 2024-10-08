@@ -29,6 +29,7 @@ function Cart() {
       items: cart.map(item => ({ shoeid: item._id, quantity: item.quantity })),
       phone,
       address,
+      shippingCode: '',
     };
   
     axios.post('https://shoe-shop-backend-qm9w.onrender.com/orders', orderData)

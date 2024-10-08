@@ -1,51 +1,28 @@
+/* Header.css */
+
 header {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f8f9fa; /* Màu nền cho header */
 }
 
 .navbar {
-  padding: 10px 20px;
+  padding: 1rem 2rem; /* Padding cho navbar */
 }
 
-.navbar-brand {
-  font-size: 1.5rem;
-  color: #333;
-  margin-right: 15px; /* Giữ khoảng cách giữa các thương hiệu */
+.navbar .navbar-brand {
+  margin-right: 20px; /* Khoảng cách giữa các brand */
 }
 
-.navbar-brand:hover {
-  color: #007bff;
+.navbar .nav-link {
+  margin-left: 15px; /* Khoảng cách giữa các link */
 }
 
-.nav-link {
-  color: #333;
-  margin-left: 10px; /* Giảm khoảng cách giữa các liên kết */
-  text-decoration: none;
-}
-
-.nav-link:hover {
-  color: #007bff;
-}
-
+/* Responsive design cho icon cart */
 .nav-link img {
-  transition: transform 0.2s ease;
+  width: 24px; /* Kích thước icon cart */
+  height: 24px;
 }
 
-.nav-link img:hover {
-  transform: scale(1.1);
+.navbar-nav {
+  margin-left: auto; /* Đẩy các phần tử sang bên phải */
 }
 
-.navbar-brand + .navbar-brand {
-  margin-left: auto;
-  font-size: 1rem;
-  font-weight: normal;
-}
-
-@media (max-width: 768px) {
-  .navbar-brand {
-    font-size: 1.25rem;
-  }
-
-  .nav-link {
-    font-size: 0.9rem;
-  }
-}

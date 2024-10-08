@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Button, Table } from 'react-bootstrap';
+import { Button, Table, Form } from 'react-bootstrap';
 import AddShoeModal from './AddShoeModal'; 
 import EditShoeModal from './EditShoeModal'; 
 import ConfirmationModal from './ConfirmationModal'; 
 
 function ShoeAdmin() {
   const [shoes, setShoes] = useState([]);
+  const [orders, setOrders] = useState([]); 
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [editShoe, setEditShoe] = useState(null);
   const [shoeToDelete, setShoeToDelete] = useState(null);
+  const [orderToDelete, setOrderToDelete] = useState(null);
+  const [shippingCode, setShippingCode] = useState(''); 
 
   useEffect(() => {
     axios.get('https://shoe-shop-backend-qm9w.onrender.com/shoes')
@@ -19,17 +22,26 @@ function ShoeAdmin() {
       .catch(error => console.error('Error fetching shoes:', error));
   }, []);
 
+  useEffect(() => {
+    fetchOrders(); // Lấy danh sách đơn hàng
+  }, []);
+
+  const fetchOrders = () => {
+    axios.get('https://shoe-shop-backend-qm9w.onrender.com/orders') 
+      .then(response => setOrders(response.data))
+      .catch(error => console.error('Error fetching orders:', error));
+  };
+
   const handleAddShoe = (shoe) => {
     setShoes([...shoes, shoe]);
   };
 
   const handleEditShoe = () => {
-    axios.get(`https://shoe-shop-backend-qm9w.onrender.com/shoes/${editShoe._id}`, editShoe)
+    axios.put(`https://shoe-shop-backend-qm9w.onrender.com/shoes/${editShoe._id}`, editShoe)
       .then(response => {
         setShoes(shoes.map(shoe => (shoe._id === response.data._id ? response.data : shoe)));
         setShowEditModal(false);
         setEditShoe(null);
-        
       })
       .catch(error => console.error('Error updating shoe:', error));
   };
@@ -44,6 +56,23 @@ function ShoeAdmin() {
         })
         .catch(error => console.error('Error deleting shoe:', error));
     }
+  };
+
+  const handleDeleteOrder = (orderId) => {
+    axios.delete(`https://shoe-shop-backend-qm9w.onrender.com/orders/${orderId}`)
+      .then(() => {
+        setOrders(orders.filter(order => order._id !== orderId));
+      })
+      .catch(error => console.error('Error deleting order:', error));
+  };
+
+  const handleConfirmShippingCode = (orderId) => {
+    axios.put(`https://shoe-shop-backend-qm9w.onrender.com/orders/${orderId}`, { shippingCode })
+      .then(response => {
+        fetchOrders(); // Cập nhật danh sách đơn hàng
+        setShippingCode(''); // Xóa giá trị input sau khi cập nhật
+      })
+      .catch(error => console.error('Error updating tracking number:', error));
   };
 
   return (
@@ -81,6 +110,60 @@ function ShoeAdmin() {
         </tbody>
       </Table>
 
+      <h2 className="mt-4">Orders</h2>
+      <Table striped bordered hover className="mt-3">
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Phone</th>
+            <th>Address</th>
+            <th>Items</th>
+            <th>Tracking Number</th>
+            <th>Order Date</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map(order => (
+            <tr key={order._id}>
+              <td>{order._id}</td>
+              <td>{order.phone}</td>
+              <td>{order.address}</td>
+              <td>
+                {order.items.map(item => {
+                  const shoe = shoes.find(shoe => shoe._id === item.shoeid);
+                  return (
+                    <div key={item.shoeid}>
+                      {shoe ? <img src={shoe.thum} alt={shoe.name} style={{ width: '50px', marginRight: '5px' }} /> : null}
+                      {shoe ? shoe.name : 'Unknown'} (Quantity: {item.quantity})
+                    </div>
+                  );
+                })}
+              </td>
+              <td>
+                <Form.Control 
+                  type="text" 
+                  placeholder="Enter tracking number" 
+                  value={order.shippingCode || shippingCode} // Hiển thị mã vận chuyển từ đơn hàng hoặc từ input
+                  onChange={(e) => setShippingCode(e.target.value)} 
+                />
+                <Button variant="success" onClick={() => handleConfirmShippingCode(order._id)}>Confirm</Button>
+              </td>
+              <td>
+                <span>{new Date(order.createdAt).toLocaleString()}</span>
+              </td>
+              <td>
+                <span>{order.shippingCode ? 'Processed' : 'Unprocessed'}</span>
+              </td>
+              <td>
+                <Button variant="danger" onClick={() => handleDeleteOrder(order._id)}>Delete Order</Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+
       <AddShoeModal show={showAddModal} onClose={() => setShowAddModal(false)} onAddShoe={handleAddShoe} />
 
       {showEditModal && (
@@ -101,4 +184,4 @@ function ShoeAdmin() {
   );
 }
 
-export default ShoeAdmin;
+export default ShoeAdmin; 

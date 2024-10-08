@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import '../css/Header.css'
+import '../css/Header.css';
 
 function Header() {
   const [cart, setCart] = useState([]);
@@ -11,7 +11,7 @@ function Header() {
   };
 
   useEffect(() => {
-    updateCart(); 
+    updateCart();
     window.addEventListener('storage', updateCart);
     return () => {
       window.removeEventListener('storage', updateCart);
@@ -25,12 +25,13 @@ function Header() {
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">ShoeShop</Link>
-          <Link className="navbar-brand" to="/admin"></Link>
-          <Link className="navbar-brand" to="/login">Login</Link>
-          <Link className="navbar-brand" to="/order">Order</Link>
-          <Link className="nav-link" to="/cart">
-            <img src={cartImage} alt="Cart" style={{ width: '24px', height: '24px' }} />
-          </Link>
+          <div className="navbar-nav ms-auto"> {/* Sử dụng ms-auto để đẩy sang bên phải */}
+            <Link className="nav-link" to="/order">Order</Link>
+            <Link className="nav-link" to="/login">Login</Link>
+            <Link className="nav-link" to="/cart">
+              <img src={cartImage} alt="Cart" style={{ width: '24px', height: '24px' }} />
+            </Link>
+          </div>
         </div>
       </nav>
     </header>

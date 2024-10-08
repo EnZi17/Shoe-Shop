@@ -52,6 +52,11 @@ function Order() {
     return order.items.reduce((total, item) => total + (shoesData[item.shoeid]?.price * item.quantity || 0), 0).toFixed(2);
   };
 
+  // Hàm để xác định trạng thái xử lý
+  const getProcessingStatus = () => {
+    return order.shippingCode ? 'Processed' : 'Processing'; // Kiểm tra shippingCode
+  };
+
   return (
     <div className="container my-4">
       <h1 className="mb-4">Order Details</h1>
@@ -69,6 +74,8 @@ function Order() {
                 <th>Total Price</th>
                 <th>Items</th>
                 <th>Date</th>
+                <th>Shipping Code</th> {/* Thêm cột Shipping Code */}
+                <th>Status</th> {/* Thêm cột Status */}
               </tr>
             </thead>
             <tbody>
@@ -96,6 +103,8 @@ function Order() {
                   </div>
                 </td>
                 <td>{new Date(order.createdAt).toLocaleString()}</td> {/* Sử dụng createdAt để hiển thị ngày giờ */}
+                <td>{order.shippingCode || 'N/A'}</td> {/* Hiển thị shippingCode hoặc 'N/A' nếu không có */}
+                <td>{getProcessingStatus()}</td> {/* Hiển thị trạng thái xử lý */}
               </tr>
             </tbody>
           </table>

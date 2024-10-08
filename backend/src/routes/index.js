@@ -3,6 +3,42 @@ const router = express.Router();
 const Shoe = require('../models/shoe');
 const Order = require('../models/order');
 
+// Cập nhật mã vận đơn của đơn hàng theo ID
+router.put('/orders/:id', async (req, res) => {
+  const { id } = req.params;
+  const { shippingCode } = req.body;
+
+  try {
+    const updatedOrder = await Order.findByIdAndUpdate(
+      id, 
+      { shippingCode }, 
+      { new: true }
+    );
+
+    if (!updatedOrder) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    res.status(200).json(updatedOrder);
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating tracking number', error });
+  }
+});
+
+
+router.delete('/orders/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedOrder = await Order.findByIdAndDelete(id);
+    if (!deletedOrder) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+    res.status(204).send(); // No content
+  } catch (error) {
+    res.status(500).json({ message: 'Error deleting order', error });
+  }
+});
+
 // POST /orders
 router.post('/orders', async (req, res) => {
   try {
@@ -50,6 +86,14 @@ router.get('/orders/:id', async (req, res) => {
   }
 });
 
+router.get('/orders', async (req, res) => {
+  try {
+    const orders = await Order.find(); // Lấy tất cả đơn hàng
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to retrieve orders', error });
+  }
+});
 
 
 // Endpoint cập nhật giày
