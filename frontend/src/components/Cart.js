@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'; // Import axios
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import '../css/Cart.css';
 
@@ -37,9 +37,9 @@ function Cart() {
         
         
         const orderId = response.data.orderid;
-        const createdAt = response.data.createdAt; // Nhận ngày giờ tạo đơn hàng từ server
+        const createdAt = response.data.createdAt; 
         localStorage.setItem('orderId', orderId); 
-        localStorage.setItem('orderCreatedAt', createdAt); // Lưu ngày giờ tạo vào localStorage
+        localStorage.setItem('orderCreatedAt', createdAt); 
         
         setShowModal(false);
         localStorage.removeItem('cart');
@@ -80,7 +80,7 @@ function Cart() {
         </div>
       )}
 
-      {/* Modal để nhập số điện thoại và địa chỉ */}
+      {}
       {showModal && (
         <div className="modal show d-block">
           <div className="modal-dialog">

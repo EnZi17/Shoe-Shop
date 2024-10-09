@@ -23,7 +23,7 @@ function ShoeAdmin() {
   }, []);
 
   useEffect(() => {
-    fetchOrders(); // Lấy danh sách đơn hàng
+    fetchOrders(); 
   }, []);
 
   const fetchOrders = () => {
@@ -69,8 +69,8 @@ function ShoeAdmin() {
   const handleConfirmShippingCode = (orderId) => {
     axios.put(`https://shoe-shop-backend-qm9w.onrender.com/orders/${orderId}`, { shippingCode })
       .then(response => {
-        fetchOrders(); // Cập nhật danh sách đơn hàng
-        setShippingCode(''); // Xóa giá trị input sau khi cập nhật
+        fetchOrders(); 
+        setShippingCode(''); 
       })
       .catch(error => console.error('Error updating tracking number:', error));
   };
@@ -145,7 +145,7 @@ function ShoeAdmin() {
                 <Form.Control 
                   type="text" 
                   placeholder="Enter tracking number" 
-                  value={order.shippingCode || shippingCode} // Hiển thị mã vận chuyển từ đơn hàng hoặc từ input
+                  value={order.shippingCode || shippingCode} 
                   onChange={(e) => setShippingCode(e.target.value)} 
                 />
                 <Button variant="success" onClick={() => handleConfirmShippingCode(order._id)}>Confirm</Button>

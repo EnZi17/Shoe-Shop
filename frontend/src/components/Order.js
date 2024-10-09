@@ -4,66 +4,63 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/Order.css';
 
 function Order() {
-  const [orderId, setOrderId] = useState(localStorage.getItem('orderId')); // Lấy orderId từ localStorage
-  const [order, setOrder] = useState(null); // State để lưu trữ thông tin đơn hàng
-  const [loading, setLoading] = useState(true); // State để hiển thị trạng thái loading
-  const [error, setError] = useState(null); // State để hiển thị lỗi nếu có
-  const [shoesData, setShoesData] = useState({}); // State để lưu trữ thông tin giày
+  const [orderId, setOrderId] = useState(localStorage.getItem('orderId')); 
+  const [order, setOrder] = useState(null); 
+  const [loading, setLoading] = useState(true); 
+  const [error, setError] = useState(null); 
+  const [shoesData, setShoesData] = useState({}); 
 
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const response = await axios.get(`https://shoe-shop-backend-qm9w.onrender.com/orders/${orderId}`); // Lấy đơn hàng dựa trên orderId
-        setOrder(response.data); // Lưu dữ liệu đơn hàng vào state
-        await fetchShoesData(response.data.items); // Gọi hàm để lấy dữ liệu giày
+        const response = await axios.get(`https://shoe-shop-backend-qm9w.onrender.com/orders/${orderId}`); 
+        setOrder(response.data);
+        await fetchShoesData(response.data.items); 
       } catch (error) {
         console.error('Error fetching order:', error);
-        setError('Failed to fetch order.'); // Cập nhật thông báo lỗi
+        setError('Failed to fetch order.'); 
       } finally {
-        setLoading(false); // Đặt loading thành false khi hoàn thành
+        setLoading(false); 
       }
     };
 
     if (orderId) {
-      fetchOrder(); // Gọi hàm lấy đơn hàng nếu có orderId
+      fetchOrder(); 
     } else {
-      setLoading(false); // Nếu không có orderId, đặt loading thành false
+      setLoading(false);
     }
   }, [orderId]);
 
-  // Hàm để lấy thông tin giày từ server
   const fetchShoesData = async (items) => {
     const shoesPromises = items.map(item => axios.get(`https://shoe-shop-backend-qm9w.onrender.com/shoes/${item.shoeid}`));
     try {
       const responses = await Promise.all(shoesPromises);
       const shoesInfo = responses.reduce((acc, response) => {
-        acc[response.data._id] = response.data; // Lưu thông tin giày theo shoeId
+        acc[response.data._id] = response.data; 
         return acc;
       }, {});
-      setShoesData(shoesInfo); // Cập nhật state với thông tin giày
+      setShoesData(shoesInfo);
     } catch (error) {
       console.error('Error fetching shoes data:', error);
     }
   };
 
-  // Tính tổng tiền từ items
   const calculateTotalPrice = () => {
-    if (!order || !order.items) return 0; // Nếu không có đơn hàng hoặc không có items
+    if (!order || !order.items) return 0; 
     return order.items.reduce((total, item) => total + (shoesData[item.shoeid]?.price * item.quantity || 0), 0).toFixed(2);
   };
 
-  // Hàm để xác định trạng thái xử lý
   const getProcessingStatus = () => {
-    return order.shippingCode ? 'Processed' : 'Processing'; // Kiểm tra shippingCode
+    return order.shippingCode ? 'Processed' : 'Processing'; 
   };
 
   return (
     <div className="container my-4">
       <h1 className="mb-4">Order Details</h1>
       {loading ? (
-        <p>Loading...</p> // Hiển thị trạng thái loading
+        <p>Loading...</p>
       ) : error ? (
-        <p className="text-danger">{error}</p> // Hiển thị thông báo lỗi nếu có
+        <p className="text-danger">{error}</p> 
       ) : order ? (
         <div className="table-responsive">
           <table className="table table-bordered">
@@ -74,20 +71,20 @@ function Order() {
                 <th>Total Price</th>
                 <th>Items</th>
                 <th>Date</th>
-                <th>Shipping Code</th> {/* Thêm cột Shipping Code */}
-                <th>Status</th> {/* Thêm cột Status */}
+                <th>Shipping Code</th> {}
+                <th>Status</th> {}
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>{order.phone}</td>
                 <td>{order.address}</td>
-                <td>${calculateTotalPrice()}</td> {/* Tính tổng tiền từ items */}
+                <td>${calculateTotalPrice()}</td> {}
                 <td>
                   <div>
                     {order.items && order.items.map(item => (
                       <div key={item.shoeid}>
-                        {shoesData[item.shoeid] && ( // Kiểm tra xem dữ liệu giày có tồn tại không
+                        {shoesData[item.shoeid] && ( 
                           <>
                             <img 
                               src={shoesData[item.shoeid].thum} 
@@ -102,15 +99,15 @@ function Order() {
                     ))}
                   </div>
                 </td>
-                <td>{new Date(order.createdAt).toLocaleString()}</td> {/* Sử dụng createdAt để hiển thị ngày giờ */}
-                <td>{order.shippingCode || 'N/A'}</td> {/* Hiển thị shippingCode hoặc 'N/A' nếu không có */}
-                <td>{getProcessingStatus()}</td> {/* Hiển thị trạng thái xử lý */}
+                <td>{new Date(order.createdAt).toLocaleString()}</td> {}
+                <td>{order.shippingCode || 'N/A'}</td> {}
+                <td>{getProcessingStatus()}</td> {}
               </tr>
             </tbody>
           </table>
         </div>
       ) : (
-        <p>No order found.</p> // Nếu không tìm thấy đơn hàng
+        <p>No order found.</p>  
       )}
     </div>
   );

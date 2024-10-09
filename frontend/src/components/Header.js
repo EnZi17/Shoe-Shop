@@ -25,7 +25,7 @@ function Header() {
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">ShoeShop</Link>
-          <div className="navbar-nav ms-auto"> {/* Sử dụng ms-auto để đẩy sang bên phải */}
+          <div className="navbar-nav ms-auto"> {}
             <Link className="nav-link" to="/order">Order</Link>
             <Link className="nav-link" to="/login">Login</Link>
             <Link className="nav-link" to="/cart">

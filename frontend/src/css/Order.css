@@ -1,0 +1,60 @@
+
+  .table {
+    margin-top: 20px;
+  }
+  
+  .table th,
+  .table td {
+    vertical-align: middle;
+    text-align: center;
+  }
+  
+  .text-danger {
+    font-weight: bold;
+  }
+  
+  .table-responsive {
+    margin-bottom: 20px;
+  }
+  
+  .item-details {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+  }
+  
+  .item-details img {
+    border-radius: 5px;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    object-fit: cover;
+  }
+  
+  .item-name {
+    font-weight: bold;
+    margin-right: 8px;
+  }
+  
+  .item-quantity,
+  .item-price {
+    font-size: 0.9em;
+    color: #666;
+  }
+  
+  .status-processing {
+    color: orange;
+    font-weight: bold;
+  }
+  
+  .status-processed {
+    color: green;
+    font-weight: bold;
+  }
+  
+  @media (max-width: 576px) {
+    .table th, .table td {
+      font-size: 0.9em;
+    }
+  }
+  

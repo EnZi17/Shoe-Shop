@@ -1,28 +1,26 @@
-/* Header.css */
 
 header {
-  background-color: #f8f9fa; /* Màu nền cho header */
+  background-color: #f8f9fa; 
 }
 
 .navbar {
-  padding: 1rem 2rem; /* Padding cho navbar */
+  padding: 1rem 2rem; 
 }
 
 .navbar .navbar-brand {
-  margin-right: 20px; /* Khoảng cách giữa các brand */
+  margin-right: 20px; 
 }
 
 .navbar .nav-link {
-  margin-left: 15px; /* Khoảng cách giữa các link */
+  margin-left: 15px; 
 }
 
-/* Responsive design cho icon cart */
 .nav-link img {
-  width: 24px; /* Kích thước icon cart */
+  width: 24px; 
   height: 24px;
 }
 
 .navbar-nav {
-  margin-left: auto; /* Đẩy các phần tử sang bên phải */
+  margin-left: auto; 
 }
 
