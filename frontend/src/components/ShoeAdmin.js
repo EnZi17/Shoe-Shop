@@ -17,7 +17,9 @@ function ShoeAdmin() {
   const [shippingCode, setShippingCode] = useState(''); 
 
   useEffect(() => {
-    axios.get('https://shoe-shop-backend-qm9w.onrender.com/shoes')
+    axios.get('https://shoe-shop-backend-qm9w.onrender.com/shoes',{
+      headers: { 'x-api-key': process.env.API_KEY } 
+    })
       .then(response => setShoes(response.data))
       .catch(error => console.error('Error fetching shoes:', error));
   }, []);
@@ -27,7 +29,9 @@ function ShoeAdmin() {
   }, []);
 
   const fetchOrders = () => {
-    axios.get('https://shoe-shop-backend-qm9w.onrender.com/orders') 
+    axios.get('https://shoe-shop-backend-qm9w.onrender.com/orders',{
+      headers: { 'x-api-key': process.env.API_KEY } 
+    }) 
       .then(response => setOrders(response.data))
       .catch(error => console.error('Error fetching orders:', error));
   };
@@ -37,7 +41,9 @@ function ShoeAdmin() {
   };
 
   const handleEditShoe = () => {
-    axios.put(`https://shoe-shop-backend-qm9w.onrender.com/shoes/${editShoe._id}`, editShoe)
+    axios.put(`https://shoe-shop-backend-qm9w.onrender.com/shoes/${editShoe._id}`, editShoe,{
+      headers: { 'x-api-key': process.env.API_KEY } 
+    })
       .then(response => {
         setShoes(shoes.map(shoe => (shoe._id === response.data._id ? response.data : shoe)));
         setShowEditModal(false);
@@ -48,7 +54,9 @@ function ShoeAdmin() {
 
   const handleDeleteShoe = () => {
     if (shoeToDelete) {
-      axios.delete(`https://shoe-shop-backend-qm9w.onrender.com/shoes/${shoeToDelete}`)
+      axios.delete(`https://shoe-shop-backend-qm9w.onrender.com/shoes/${shoeToDelete}`,{
+        headers: { 'x-api-key': process.env.API_KEY } 
+      })
         .then(() => {
           setShoes(shoes.filter(shoe => shoe._id !== shoeToDelete));
           setShoeToDelete(null);
@@ -59,7 +67,9 @@ function ShoeAdmin() {
   };
 
   const handleDeleteOrder = (orderId) => {
-    axios.delete(`https://shoe-shop-backend-qm9w.onrender.com/orders/${orderId}`)
+    axios.delete(`https://shoe-shop-backend-qm9w.onrender.com/orders/${orderId}`,{
+      headers: { 'x-api-key': process.env.API_KEY } 
+    })
       .then(() => {
         setOrders(orders.filter(order => order._id !== orderId));
       })
@@ -67,7 +77,9 @@ function ShoeAdmin() {
   };
 
   const handleConfirmShippingCode = (orderId) => {
-    axios.put(`https://shoe-shop-backend-qm9w.onrender.com/orders/${orderId}`, { shippingCode })
+    axios.put(`https://shoe-shop-backend-qm9w.onrender.com/orders/${orderId}`, { shippingCode },{
+      headers: { 'x-api-key': process.env.API_KEY } 
+    })
       .then(response => {
         fetchOrders(); 
         setShippingCode(''); 

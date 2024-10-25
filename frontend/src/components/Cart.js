@@ -32,7 +32,9 @@ function Cart() {
       shippingCode: '',
     };
   
-    axios.post('https://shoe-shop-backend-qm9w.onrender.com/orders', orderData)
+    axios.post('https://shoe-shop-backend-qm9w.onrender.com/orders', orderData,{
+      headers: { 'x-api-key': process.env.API_KEY } 
+    })
       .then(response => {
         
         

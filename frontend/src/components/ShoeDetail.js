@@ -8,7 +8,9 @@ function ShoeDetail() {
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
-    fetch(`https://shoe-shop-backend-qm9w.onrender.com/shoes/${id}`)
+    fetch(`https://shoe-shop-backend-qm9w.onrender.com/shoes/${id}`,{
+      headers: { 'x-api-key': process.env.API_KEY } 
+    })
       .then(response => response.json())
       .then(data => setShoe(data))
       .catch(error => console.error('Error fetching shoe details:', error));

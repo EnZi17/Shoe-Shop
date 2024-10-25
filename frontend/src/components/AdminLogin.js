@@ -8,7 +8,9 @@ const AdminLogin = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://shoe-shop-backend-qm9w.onrender.com/login', { password });
+            const response = await axios.post('https://shoe-shop-backend-qm9w.onrender.com/login', { password } ,{
+                headers: { 'x-api-key': process.env.API_KEY } 
+              } );
             if (response.data.message === 'Welcome to admin page') {
                 window.location.href = '/admin';
             }

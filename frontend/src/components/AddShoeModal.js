@@ -18,7 +18,9 @@ function AddShoeModal({ show, onClose, onAddShoe }) {
   });
 
   const handleAddShoe = () => {
-    axios.post('https://shoe-shop-backend-qm9w.onrender.com/shoes', newShoe)
+    axios.post('https://shoe-shop-backend-qm9w.onrender.com/shoes', newShoe ,{
+      headers: { 'x-api-key': process.env.API_KEY } 
+    })
       .then(response => {
         onAddShoe(response.data);
         onClose();

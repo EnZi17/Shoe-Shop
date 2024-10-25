@@ -3,63 +3,58 @@ const router = express.Router();
 const Shoe = require('../models/shoe');
 const Order = require('../models/order');
 
+// Middleware kiểm tra API Key
+const checkApiKey = (req, res, next) => {
+  const apiKey = req.headers['x-api-key']; // API key truyền qua headers
+  const validApiKey = process.env.API_KEY||'enzi117apikey';
+
+  if (apiKey && apiKey === validApiKey) {
+    next(); // Cho phép truy cập
+  } else {
+    res.status(403).json({ message: 'Invalid API Key' });
+  }
+};
+
+// Áp dụng middleware kiểm tra API Key cho tất cả các route
+router.use(checkApiKey);
+
 // Cập nhật mã vận đơn của đơn hàng theo ID
 router.put('/orders/:id', async (req, res) => {
   const { id } = req.params;
   const { shippingCode } = req.body;
 
   try {
-    const updatedOrder = await Order.findByIdAndUpdate(
-      id, 
-      { shippingCode }, 
-      { new: true }
-    );
-
-    if (!updatedOrder) {
-      return res.status(404).json({ message: 'Order not found' });
-    }
-
+    const updatedOrder = await Order.findByIdAndUpdate(id, { shippingCode }, { new: true });
+    if (!updatedOrder) return res.status(404).json({ message: 'Order not found' });
     res.status(200).json(updatedOrder);
   } catch (error) {
     res.status(500).json({ message: 'Error updating tracking number', error });
   }
 });
 
-
+// Xóa đơn hàng
 router.delete('/orders/:id', async (req, res) => {
   const { id } = req.params;
   try {
     const deletedOrder = await Order.findByIdAndDelete(id);
-    if (!deletedOrder) {
-      return res.status(404).json({ message: 'Order not found' });
-    }
-    res.status(204).send(); // No content
+    if (!deletedOrder) return res.status(404).json({ message: 'Order not found' });
+    res.status(204).send();
   } catch (error) {
     res.status(500).json({ message: 'Error deleting order', error });
   }
 });
 
-// POST /orders
+// Thêm mới đơn hàng
 router.post('/orders', async (req, res) => {
   try {
     const { items, phone, address, shippingCode } = req.body;
-
-    // Tạo đối tượng đơn hàng
-    const order = new Order({
-      items,
-      phone,
-      address,
-      shippingCode,
-    });
-
-    // Lưu đơn hàng vào cơ sở dữ liệu
+    const order = new Order({ items, phone, address, shippingCode });
     const savedOrder = await order.save();
 
-    // Trả về thông tin đơn hàng, bao gồm cả ngày giờ tạo
     res.status(201).json({
       message: 'Order placed successfully',
-      orderid: savedOrder._id, // Trả về _id của đơn hàng như orderid
-      createdAt: savedOrder.createdAt, // Trả về ngày giờ tạo đơn hàng
+      orderid: savedOrder._id,
+      createdAt: savedOrder.createdAt,
       order: savedOrder,
     });
   } catch (error) {
@@ -67,36 +62,29 @@ router.post('/orders', async (req, res) => {
   }
 });
 
-
-// GET /orders/:id
+// Lấy đơn hàng theo ID
 router.get('/orders/:id', async (req, res) => {
   try {
     const { id } = req.params;
-
-    // Tìm kiếm đơn hàng theo _id
     const order = await Order.findById(id);
-
-    if (!order) {
-      return res.status(404).json({ message: 'Order not found' });
-    }
-
+    if (!order) return res.status(404).json({ message: 'Order not found' });
     res.status(200).json(order);
   } catch (error) {
     res.status(500).json({ message: 'Failed to retrieve order', error });
   }
 });
 
+// Lấy tất cả đơn hàng
 router.get('/orders', async (req, res) => {
   try {
-    const orders = await Order.find(); // Lấy tất cả đơn hàng
+    const orders = await Order.find();
     res.json(orders);
   } catch (error) {
     res.status(500).json({ message: 'Failed to retrieve orders', error });
   }
 });
 
-
-// Endpoint cập nhật giày
+// Cập nhật giày theo ID
 router.put('/shoes/:id', async (req, res) => {
   try {
     const updatedShoe = await Shoe.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -107,7 +95,7 @@ router.put('/shoes/:id', async (req, res) => {
   }
 });
 
-// Endpoint tạo giày mới
+// Thêm mới giày
 router.post('/shoes', async (req, res) => {
   try {
     const newShoe = new Shoe(req.body);
@@ -118,7 +106,7 @@ router.post('/shoes', async (req, res) => {
   }
 });
 
-// Endpoint tìm kiếm giày theo ID
+// Tìm giày theo ID
 router.get('/shoes/:id', async (req, res) => {
   try {
     const shoe = await Shoe.findById(req.params.id);
@@ -129,7 +117,7 @@ router.get('/shoes/:id', async (req, res) => {
   }
 });
 
-// Endpoint lấy danh sách giày và hỗ trợ tìm kiếm theo tên
+// Tìm kiếm giày
 router.get('/shoes', async (req, res) => {
   try {
     const searchTerm = req.query.search || '';
@@ -142,30 +130,30 @@ router.get('/shoes', async (req, res) => {
   }
 });
 
-// Endpoint xóa giày theo ID
+// Xóa giày theo ID
 router.delete('/shoes/:id', async (req, res) => {
   try {
     const shoe = await Shoe.findByIdAndDelete(req.params.id);
     if (!shoe) return res.status(404).send('Shoe not found');
-    res.status(204).send(); // No content
+    res.status(204).send();
   } catch (err) {
     res.status(500).send(err);
   }
 });
 
-// Middleware kiểm tra mật khẩu
+// Middleware kiểm tra mật khẩu Admin
 const checkPassword = (req, res, next) => {
-  const { password } = req.body; // Lấy mật khẩu từ yêu cầu
-  const adminPassword = process.env.ADMIN_PASSWORD||'enzi117'; // Lưu mật khẩu trong biến môi trường
-  
+  const { password } = req.body;
+  const adminPassword = process.env.ADMIN_PASSWORD || 'enzi117';
+
   if (password === adminPassword) {
-      next(); // Cho phép truy cập
+    next();
   } else {
-      res.status(401).json({ message: 'Unauthorized access' });
+    res.status(401).json({ message: 'Unauthorized access' });
   }
 };
 
-// Route Admin
+// Route đăng nhập Admin
 router.post('/login', checkPassword, (req, res) => {
   res.json({ message: 'Welcome to admin page' });
 });

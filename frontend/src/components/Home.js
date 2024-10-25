@@ -7,7 +7,9 @@ function Home() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
-    fetch(`https://shoe-shop-backend-qm9w.onrender.com/shoes?search=${searchTerm}`)
+    fetch(`https://shoe-shop-backend-qm9w.onrender.com/shoes?search=${searchTerm}`,{
+      headers: { 'x-api-key': process.env.API_KEY } 
+    })
       .then(response => response.json())
       .then(data => setShoes(data))
       .catch(error => console.error('Error fetching shoes:', error));
