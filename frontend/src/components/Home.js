@@ -7,6 +7,7 @@ function Home() {
   const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
+    console.log('API Key:', process.env.API_KEY);
     fetch(`https://shoe-shop-backend-qm9w.onrender.com/shoes?search=${searchTerm}`,{
       headers: { 'x-api-key': process.env.API_KEY } 
     })
