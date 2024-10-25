@@ -14,7 +14,7 @@ function Order() {
     const fetchOrder = async () => {
       try {
         const response = await axios.get(`https://shoe-shop-backend-qm9w.onrender.com/orders/${orderId}`,{
-          headers: { 'x-api-key': process.env.API_KEY } 
+          headers: { 'x-api-key': process.env.REACT_APP_API_KEY } 
         }); 
         setOrder(response.data);
         await fetchShoesData(response.data.items); 
@@ -35,7 +35,7 @@ function Order() {
 
   const fetchShoesData = async (items) => {
     const shoesPromises = items.map(item => axios.get(`https://shoe-shop-backend-qm9w.onrender.com/shoes/${item.shoeid}`,{
-      headers: { 'x-api-key': process.env.API_KEY } 
+      headers: { 'x-api-key': process.env.REACT_APP_API_KEY } 
     }));
     try {
       const responses = await Promise.all(shoesPromises);

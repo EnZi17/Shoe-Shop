@@ -6,7 +6,7 @@ const Order = require('../models/order');
 // Middleware kiểm tra API Key
 const checkApiKey = (req, res, next) => {
   const apiKey = req.headers['x-api-key']; // API key truyền qua headers
-  const validApiKey = process.env.API_KEY||'enzi117apikey';
+  const validApiKey = process.env.REACT_APP_REACT_APP_REACT_APP_REACT_APP_REACT_APP_REACT_APP_REACT_APP_REACT_APP_REACT_APP_API_KEY||'enzi117apikey';
 
   if (apiKey && apiKey === validApiKey) {
     next(); // Cho phép truy cập

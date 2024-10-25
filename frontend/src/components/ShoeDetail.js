@@ -9,7 +9,7 @@ function ShoeDetail() {
 
   useEffect(() => {
     fetch(`https://shoe-shop-backend-qm9w.onrender.com/shoes/${id}`,{
-      headers: { 'x-api-key': process.env.API_KEY } 
+      headers: { 'x-api-key': process.env.REACT_APP_API_KEY } 
     })
       .then(response => response.json())
       .then(data => setShoe(data))
