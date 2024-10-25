@@ -11,7 +11,7 @@ const checkApiKey = (req, res, next) => {
   if (apiKey && apiKey === validApiKey) {
     next(); // Cho phép truy cập
   } else {
-    res.status(403).json({ message: 'Invalid API Key' });
+    res.status(403).json({ message: 'Invalid API Key'+ apiKey });
   }
 };
 
