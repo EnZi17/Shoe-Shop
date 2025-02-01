@@ -8,8 +8,8 @@ function Home() {
 
   useEffect(() => {
     
-    fetch(`https://shoe-shop-backend-qm9w.onrender.com/shoes?search=${searchTerm}`,{
-      headers: { 'x-api-key': process.env.REACT_APP_API_KEY } 
+    fetch(`https://backend-zb9w.onrender.com/shoes?search=${searchTerm}`,{
+      headers: { 'x-api-key': 'enzi117apikey' } 
     })
       .then(response => response.json())
       .then(data => setShoes(data))

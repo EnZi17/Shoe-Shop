@@ -13,8 +13,8 @@ function Order() {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const response = await axios.get(`https://shoe-shop-backend-qm9w.onrender.com/orders/${orderId}`,{
-          headers: { 'x-api-key': process.env.REACT_APP_API_KEY } 
+        const response = await axios.get(`https://backend-zb9w.onrender.com/orders/${orderId}`,{
+          headers: { 'x-api-key': 'enzi117apikey' } 
         }); 
         setOrder(response.data);
         await fetchShoesData(response.data.items); 
@@ -34,8 +34,8 @@ function Order() {
   }, [orderId]);
 
   const fetchShoesData = async (items) => {
-    const shoesPromises = items.map(item => axios.get(`https://shoe-shop-backend-qm9w.onrender.com/shoes/${item.shoeid}`,{
-      headers: { 'x-api-key': process.env.REACT_APP_API_KEY } 
+    const shoesPromises = items.map(item => axios.get(`https://backend-zb9w.onrender.com/shoes/${item.shoeid}`,{
+      headers: { 'x-api-key': 'enzi117apikey' } 
     }));
     try {
       const responses = await Promise.all(shoesPromises);

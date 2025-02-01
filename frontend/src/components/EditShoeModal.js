@@ -22,8 +22,8 @@ function EditShoeModal({ show, onClose, shoe, onSave }) {
   };
 
   const handleSave = () => {
-    axios.put(`https://shoe-shop-backend-qm9w.onrender.com/shoes/${editedShoe._id}`, editedShoe,{
-      headers: { 'x-api-key': process.env.REACT_APP_API_KEY } 
+    axios.put(`https://backend-zb9w.onrender.com/shoes/${editedShoe._id}`, editedShoe,{
+      headers: { 'x-api-key': 'enzi117apikey' } 
     })
       .then(response => {
         onSave(response.data); 

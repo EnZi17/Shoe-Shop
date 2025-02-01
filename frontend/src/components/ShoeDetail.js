@@ -8,8 +8,8 @@ function ShoeDetail() {
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
-    fetch(`https://shoe-shop-backend-qm9w.onrender.com/shoes/${id}`,{
-      headers: { 'x-api-key': process.env.REACT_APP_API_KEY } 
+    fetch(`https://backend-zb9w.onrender.com/shoes/${id}`,{
+      headers: { 'x-api-key': 'enzi117apikey' } 
     })
       .then(response => response.json())
       .then(data => setShoe(data))

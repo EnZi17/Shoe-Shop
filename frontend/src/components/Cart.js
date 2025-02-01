@@ -32,8 +32,8 @@ function Cart() {
       shippingCode: '',
     };
   
-    axios.post('https://shoe-shop-backend-qm9w.onrender.com/orders', orderData,{
-      headers: { 'x-api-key': process.env.REACT_APP_API_KEY} 
+    axios.post('https://backend-zb9w.onrender.com/orders', orderData,{
+      headers: { 'x-api-key': 'enzi117apikey'} 
     })
       .then(response => {
         
