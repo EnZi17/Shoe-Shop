@@ -13,7 +13,7 @@ function Order() {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const response = await axios.get(`https://shoe-shop-backend-qm9w.onrender.com/orders/${orderId}`); 
+        const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/orders/${orderId}`); 
         setOrder(response.data);
         await fetchShoesData(response.data.items); 
       } catch (error) {
@@ -32,7 +32,7 @@ function Order() {
   }, [orderId]);
 
   const fetchShoesData = async (items) => {
-    const shoesPromises = items.map(item => axios.get(`https://shoe-shop-backend-qm9w.onrender.com/shoes/${item.shoeid}`));
+    const shoesPromises = items.map(item => axios.get(`${process.env.REACT_APP_BACKEND_URL}/shoes/${item.shoeid}`));
     try {
       const responses = await Promise.all(shoesPromises);
       const shoesInfo = responses.reduce((acc, response) => {

@@ -18,7 +18,7 @@ function AddShoeModal({ show, onClose, onAddShoe }) {
   });
 
   const handleAddShoe = () => {
-    axios.post('https://shoe-shop-backend-qm9w.onrender.com/shoes', newShoe)
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/shoes`, newShoe)
       .then(response => {
         onAddShoe(response.data);
         onClose();

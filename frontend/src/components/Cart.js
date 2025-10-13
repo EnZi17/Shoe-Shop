@@ -32,7 +32,7 @@ function Cart() {
       shippingCode: '',
     };
   
-    axios.post('https://shoe-shop-backend-qm9w.onrender.com/orders', orderData)
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/orders`, orderData)
       .then(response => {
         
         

@@ -22,7 +22,7 @@ function EditShoeModal({ show, onClose, shoe, onSave }) {
   };
 
   const handleSave = () => {
-    axios.put(`https://shoe-shop-backend-qm9w.onrender.com/shoes/${editedShoe._id}`, editedShoe)
+    axios.put(`${process.env.REACT_APP_BACKEND_URL}/shoes/${editedShoe._id}`, editedShoe)
       .then(response => {
         onSave(response.data); 
         onClose();

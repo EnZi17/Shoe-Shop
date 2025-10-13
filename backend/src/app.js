@@ -1,3 +1,4 @@
+require('dotenv').config();
 const path = require('path');
 const mongoose = require('mongoose');
 const express = require('express');
@@ -8,7 +9,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI || "mongodb+srv://enzi:thoenzi117@cluster0.uomnk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0");
+mongoose.connect(process.env.MONGO_URI);
 
 const db = mongoose.connection;
 
