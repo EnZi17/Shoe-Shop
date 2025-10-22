@@ -133,10 +133,18 @@ router.get('/shoes/:id', async (req, res) => {
 router.get('/shoes', async (req, res) => {
   try {
     const searchTerm = req.query.search || '';
-    const shoes = await Shoe.find({
-      name: new RegExp(searchTerm, 'i')
-    });
-    res.json(shoes);
+    const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
+    const limit = Math.max(parseInt(req.query.limit, 10) || 8, 1);
+    const query = { name: new RegExp(searchTerm, 'i') }; //tìm kiếm theo tên không pb hoa thường
+
+    const totalItems = await Shoe.countDocuments(query); //đếm tổng số sản phẩm
+    const totalPages = Math.max(1, Math.ceil(totalItems / limit)); // tính số trang
+    const shoes = await Shoe.find(query)
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .exec();
+
+    res.json({ shoes, totalPages, currentPage: page, totalItems });
   } catch (err) {
     res.status(500).send(err);
   }
