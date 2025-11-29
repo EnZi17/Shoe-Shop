@@ -9,6 +9,8 @@ import Header from './components/Header';
 import Footer from './components/Footer'; 
 import Login from './components/AdminLogin';
 import Order from './components/Order';
+import Register from './components/Register';
+import PrivateRoute from './components/PrivateRoute';
 import './App.css';
 
 function App() {
@@ -18,12 +20,17 @@ function App() {
       <main id="root">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/shoes/:id" element={<ShoeDetail />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/add-shoe" element={<AddShoe />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/order" element={<Order />} />
+          <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
+          <Route path="/shoes/:id" element={<ShoeDetail />} />
+          <Route path="/admin" element={
+            <PrivateRoute requireAdmin={true}><AdminDashboard /></PrivateRoute>
+          } />
+          <Route path="/admin/add-shoe" element={
+            <PrivateRoute requireAdmin={true}><AddShoe /></PrivateRoute>
+          } />
+          <Route path="/order" element={<PrivateRoute><Order /></PrivateRoute>} />
         </Routes>
       </main>
       <Footer />

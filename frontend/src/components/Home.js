@@ -1,4 +1,3 @@
-// ...existing code...
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import '../css/Home.css';
@@ -43,56 +42,128 @@ function Home() {
   };
 
   return (
-    <div className="container">
-      <main>
+    <>
+      <div className='container-1'>
+        <div id='slide'>
+          <div
+            className="item"
+            style={{
+              backgroundImage: `url(1.jpg)`
+            }}
+          >
+          </div>
+          <div
+            className="item"
+            style={{
+              backgroundImage: `url(3.jpg)`
+            }}
+          >
+          </div>
+          <div
+            className="item"
+            style={{
+              backgroundImage: `url(4.jpg)`
+            }}
+          >
+          </div>
+          <div
+            className="item"
+            style={{
+              backgroundImage: `url(5.jpg)`
+            }}
+          >
+          </div>
+
+          <div className='buttons'>
+            <button id='prev'><i className="fa-regular fa-circle-left"></i></button>
+            <button id='next'></button>
+          </div>
+        </div>
+      </div>
+
+      <div className="container">
+        <input
+          type="text"
+          placeholder="Search by name..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="form-control search-input mb-4"
+        />
+        <h2 className='title-blog'>Best Product</h2>
         <section className="featured-shoes">
-          <input
-            type="text"
-            placeholder="Search by name..."
-            value={searchTerm}
-            onChange={handleSearchChange}
-            className="form-control search-input mb-4"
-          />
-          <div className="row d-flex">
-            {shoes.map(shoe => (
-              <div key={shoe._id} className="col-md-3">
-                <div className="card mb-4">
+          {/* flex-nowrap: nằm trên cùng 1 hàng, overflow-auto: tạo scroll */}
+          <div className="row d-flex flex-nowrap">
+            {shoes.slice(0, 5).map(shoe => (
+              // col-auto: chiều rộng item co giãn tự động(min: 250px)
+              <div key={shoe._id} className="col-auto">
+                <div className="card mb-4" style={{ width: '250px', minWidth: '250px' }}>
                   <Link to={`/shoes/${shoe._id}`}>
-                    <img src={shoe.thum} className="card-img-top" alt={shoe.name} />
+                    <img src={shoe.thum} className="card-img" alt={shoe.name} />
                   </Link>
                   <div className="card-body">
                     <h5 className="card-title shoe-name">{shoe.name}</h5>
-                    <p className="card-text">Price: ${shoe.price}</p>
+                    <p className='card-text'>{shoe.price}<sup>$</sup></p>
+                    <p className='starts'>⭐<b>{shoe.rating}</b></p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
-
-          {/* Pagination controls */}
-          <nav aria-label="Page navigation">
-            <ul className="pagination justify-content-center">
-              <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                <button className="page-link" onClick={() => goToPage(currentPage - 1)}>Previous</button>
-              </li>
-              {Array.from({ length: totalPages }).map((_, idx) => {
-                const pageNum = idx + 1;
-                return (
-                  <li key={pageNum} className={`page-item ${currentPage === pageNum ? 'active' : ''}`}>
-                    <button className="page-link" onClick={() => goToPage(pageNum)}>{pageNum}</button>
-                  </li>
-                );
-              })}
-              <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                <button className="page-link" onClick={() => goToPage(currentPage + 1)}>Next</button>
-              </li>
-            </ul>
-          </nav>
         </section>
-      </main>
-    </div>
+      </div>
+
+      <div className="container">
+        <main>
+          <h2 className='title-blog'>All Products</h2>
+          <section className="featured-shoes">
+
+            <div className="row d-flex">
+              {shoes.map(shoe => (
+                <div key={shoe._id} className="col-md-3">
+                  <div className="card mb-4">
+                    <Link to={`/shoes/${shoe._id}`}>
+                      <img src={shoe.thum} className="card-img-top" alt={shoe.name} />
+                    </Link>
+                    <div className="card-body">
+                      <h5 className="card-title shoe-name">{shoe.name}</h5>
+
+                      <p className="card-text" >${shoe.price}</p>
+                      <p className="starts" >⭐<b>{shoe.rating}</b></p>
+                      {/* <p className = "card">Discount {shoe.discount}%</p>  */}
+
+                      {/* <textarea placeholder='Commnents...' className='comment-textarea'></textarea>
+                    <button className=''>Submit</button> */}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Pagination controls */}
+            <nav aria-label="Page navigation">
+              <ul className="pagination justify-content-center">
+                <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
+                  <button className="page-link" onClick={() => goToPage(currentPage - 1)}>Previous</button>
+                </li>
+                {Array.from({ length: totalPages }).map((_, idx) => {
+                  const pageNum = idx + 1;
+                  return (
+                    <li key={pageNum} className={`page-item ${currentPage === pageNum ? 'active' : ''}`}>
+                      <button className="page-link" onClick={() => goToPage(pageNum)}>{pageNum}</button>
+                    </li>
+                  );
+                })}
+                <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
+                  <button className="page-link" onClick={() => goToPage(currentPage + 1)}>Next</button>
+                </li>
+              </ul>
+            </nav>
+          </section>
+        </main>
+      </div>
+    </>
   );
+
 }
 
 export default Home;
-// ...existing code...

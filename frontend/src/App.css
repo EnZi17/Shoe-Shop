@@ -91,3 +91,27 @@
     height: 4.5em;
   }
 }
+/* Tùy chỉnh khung viền cho textarea */
+.comment-textarea {
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  width: 100%;
+  height: 40px;
+  box-sizing: border-box;
+  padding: 8px; /* Padding phù hợp */
+  
+  /* Căn giữa với Flexbox */
+  display: flex;
+  align-items: center; /* Căn giữa theo chiều dọc */
+  
+  /* Hiển thị placeholder */
+  position: relative;
+  resize: none;
+}
+
+/* Thêm hiệu ứng khi người dùng tương tác */
+.comment-textarea:focus {
+  outline: none; /* Xóa viền mặc định khi focus */
+  border-color: #007bff; /* Thay đổi màu viền khi focus */
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Thêm hiệu ứng box-shadow */
+}

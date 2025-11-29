@@ -2,7 +2,36 @@ const express = require('express');
 const router = express.Router();
 const Shoe = require('../models/shoe');
 const Order = require('../models/order');
+const Cart = require('../models/cart');
 
+//Thêm giỏ hàng
+router.post('/cart', async (req, res)=>{
+  try{
+    const{userId, productId, quantity = 1} = req.body;
+
+    //tạo đối tượng giỏ hàng
+    const cartItem = new Cart({
+      userId,
+      productId,
+      quantity
+    });
+
+    const saveCart = await cartItem.save();
+    res.json({message: 'Added to cart ', cartItem});
+  } catch(error){
+    res.status(500).json({message: 'Error add to cart', error});
+  }
+});
+
+//Lấy giỏ hàng
+router.get('/cart/:userId', async(req, res) => {
+  try {
+    const cartItems = await Cart.find({ userId: req.params.userId}).populate('productId');
+    res.json(cartItems);
+  } catch (error) {
+    res.status(500).json({ message: 'Lỗi server', error });
+  }
+});
 // Cập nhật mã vận đơn của đơn hàng theo ID
 router.put('/orders/:id', async (req, res) => {
   const { id } = req.params;
@@ -25,7 +54,7 @@ router.put('/orders/:id', async (req, res) => {
   }
 });
 
-
+//Xóa đơn hàng
 router.delete('/orders/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -40,7 +69,7 @@ router.delete('/orders/:id', async (req, res) => {
 });
 
 // POST /orders
-router.post('/orders', async (req, res) => {
+router.post('/orders', async (req, res) => { //tạo đơn hàng
   try {
     const { items, phone, address, shippingCode } = req.body;
 
@@ -69,7 +98,7 @@ router.post('/orders', async (req, res) => {
 
 
 // GET /orders/:id
-router.get('/orders/:id', async (req, res) => {
+router.get('/orders/:id', async (req, res) => { //route xem chi tiết đơn hàng
   try {
     const { id } = req.params;
 
@@ -86,7 +115,8 @@ router.get('/orders/:id', async (req, res) => {
   }
 });
 
-router.get('/orders', async (req, res) => {
+//Lấy toàn bộ đơn hàng(admin)
+router.get('/orders',  async (req, res) => {
   try {
     const orders = await Order.find(); // Lấy tất cả đơn hàng
     res.json(orders);
@@ -108,7 +138,7 @@ router.put('/shoes/:id', async (req, res) => {
 });
 
 // Endpoint tạo giày mới
-router.post('/shoes', async (req, res) => {
+router.post('/shoes',  async (req, res) => {
   try {
     const newShoe = new Shoe(req.body);
     const savedShoe = await newShoe.save();
@@ -151,7 +181,7 @@ router.get('/shoes', async (req, res) => {
 });
 
 // Endpoint xóa giày theo ID
-router.delete('/shoes/:id', async (req, res) => {
+router.delete('/shoes/:id',async (req, res) => {
   try {
     const shoe = await Shoe.findByIdAndDelete(req.params.id);
     if (!shoe) return res.status(404).send('Shoe not found');
@@ -175,7 +205,11 @@ const checkPassword = (req, res, next) => {
 
 // Route Admin
 router.post('/login', checkPassword, (req, res) => {
-  res.json({ message: 'Welcome to admin page' });
+  res.json({ message: 'Welcome to admin page',
+    user: {
+      role: 'admin'
+    }
+   });
 });
 
 module.exports = router;

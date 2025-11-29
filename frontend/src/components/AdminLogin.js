@@ -1,34 +1,131 @@
 import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import '../css/Login.css';
 
-const AdminLogin = () => {
-    const [password, setPassword] = useState('');
+const Login = () => {
+    const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+    });
     const [error, setError] = useState('');
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/login`, { password });
-            if (response.data.message === 'Welcome to admin page') {
-                window.location.href = '/admin';
+            // Tạo login data đúng
+            let loginData;
+            if (isAdmin) {
+                // Admin chỉ cần mật khẩu
+                loginData = { 
+                    password: formData.password, 
+                    isAdmin: true 
+                };
+            } else {
+                // User cần email và password
+                loginData = { 
+                    email: formData.email, 
+                    password: formData.password, 
+                    isAdmin: false 
+                };
+            }
+
+            console.log('Sending login data:', loginData);
+
+            // Nếu là admin, gửi tới /login, không phải /auth/login
+            const endpoint = isAdmin ? '/login' : '/auth/login';
+
+
+            const response = await axios.post(
+                `${process.env.REACT_APP_BACKEND_URL}${endpoint}` ,
+                loginData,
+                { withCredentials: true }
+            );
+
+            console.log('Login response:', response.data);
+
+            
+
+            if (response.data && response.data.user) {
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+
+                if (response.data.user.role === 'admin') { 
+                    alert('Đăng nhập admin thành công');
+                    navigate('/admin');
+                } else {
+                    alert(`Đăng nhập thành công! Chào ${formData.email}`);
+                    navigate('/');
+                }
             }
         } catch (err) {
-            setError('Sai mật khẩu');
+            console.error('Login error:', err.response?.data || err);
+            setError(err.response?.data?.message || 'Login failed');
+            alert(' Đăng nhập thất bại! Vui lòng kiểm tra lại thông tin.');
         }
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input
-                type="password"
-                placeholder="Input Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-            />
-            <button type="submit">Login</button>
-            {error && <p>{error}</p>}
-        </form>
+        <div className="login-container">
+            <div className="login-box">
+                <h2>{isAdmin ? 'Admin Login' : 'User Login'}</h2>
+                <form onSubmit={handleSubmit}>
+                    {!isAdmin && (
+                        <div className="form-group">
+                            <label>Email:</label>
+                            <input
+                                type="email"
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
+                                required={!isAdmin}
+                            />
+                        </div>
+                    )}
+                    <div className="form-group">
+                        <label>Password:</label>
+                        <input
+                            type="password"
+                            name="password"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    {error && <p className="error-message">{error}</p>}
+                    <button type="submit" className="login-button">
+                        Login
+                    </button>
+                    {!isAdmin && (
+                        <div className="register-link mt-3 text-center">
+                            <p>No account? <Link to="/register">Register now!</Link></p>
+                        </div>
+                    )}
+                    <div className="toggle-form">
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setIsAdmin(!isAdmin);
+                                setFormData({ email: '', password: '' });
+                                setError('');
+                            }}
+                            className="toggle-button"
+                        >
+                            Switch to {isAdmin ? 'User' : 'Admin'} Login
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     );
 };
 
-export default AdminLogin;
+export default Login;

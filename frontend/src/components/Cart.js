@@ -9,12 +9,33 @@ function Cart() {
   const [address, setAddress] = useState('');
   const [showModal, setShowModal] = useState(false);
 
+  const user = JSON.parse(localStorage.getItem('user'));
+
   useEffect(() => {
+     // Lấy giỏ hàng từ database nếu user đã đăng nhập
+    if (user) {
+      axios.get(`${process.env.REACT_APP_BACKEND_URL}/cart/${user.id}`)
+        .then(response => {
+          setCart(response.data);
+        })
+        .catch(error => {
+          console.log('Lỗi lấy giỏ hàng:', error);
+        });
+    }
     const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
     setCart(cartItems);
-  }, []);
+  }, [user]);
+
+  
 
   const removeFromCart = (id) => {
+     //Xóa từ database
+    if (user) {
+      axios.delete(`${process.env.REACT_APP_BACKEND_URL}/cart/${id}`)
+        .catch(error => {
+          console.log('Lỗi xóa từ database:', error);
+        });
+    }
     let updatedCart = cart.filter(item => item._id !== id);
     setCart(updatedCart);
     localStorage.setItem('cart', JSON.stringify(updatedCart));

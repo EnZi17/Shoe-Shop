@@ -1,6 +1,14 @@
-
 header {
-  background-color: #f8f9fa; 
+  /* position: fixed; */
+  left: 0;
+  right: 0;
+  top: 0;
+  border-bottom: 1px solid #000000;
+  z-index: 9999;
+  background: #fff; /* chỉnh theo theme */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  transform: translateY(0);
+  /* transition: transform 320ms cubic-bezier(.2,.8,.2,1), box-shadow 200ms; */
 }
 
 .navbar {

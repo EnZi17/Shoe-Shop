@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&display=swap');
+
 .card-title {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -6,6 +8,9 @@
     margin-bottom: 0.5rem; 
   }
 
+  .card-text{
+    color: red;
+  }
 
 .search-input {
   max-width: 300px; 
@@ -16,7 +21,100 @@
 }
 
 .featured-shoes {
-  margin-top: 40px; 
+  margin-top: 40px;
+  /* padding: 30px;  */
 }
 
+.featured-shoes .card-body .card {
+  padding: 2px 5px;
+  background: red;
+  margin-right: 35px;
+  width: fit-content; /*thu theo nội dung */
+  display: block; /*đứng dòng riêng*/
+}
+
+.starts {
+  font-size: medium;
+}
+
+/*.card-img-top{animation: pulse 2s infinite;} /* lặp 2s vô hạn*/
+@keyframes pulse {
+  0%, 100% { transform: scale(1);} /* */
+  50% {transform: scale(1.1);} /*0(bắt đầu): ảnh kích thước thật scale(1) ->50(giữa) ảnh phóng to 120%(scale1.2) ->100 ảnh về ban đầu*/
+}
+
+.card.mb-4{
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease-in-out ; /*đầu cuối chậm, giữa nhanh*/
+  transform-origin: center; /*phóng to từ trung tâm*/
   
+}
+.card.mb-4:hover{
+  transform: scale(1.1) ;
+}
+
+.title-blog{
+  text-align: center;
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.main{
+  border: 1px solid black;
+}
+
+.container-1{
+  width: 100%;
+  margin-bottom: 2rem;
+  padding: 10px;
+  background-color: antiquewhite;
+  box-shadow: 0 30px 50px #bdbdbd;
+  position: relative; /*điểm chuẩn*/
+}
+
+#slide {
+  width: 100%;
+  height: 500px;
+  position: relative;
+  
+}
+
+.item{
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: 50% 50%;
+  transition: 1s;
+  position: absolute;
+  z-index: 1; /* nằm trên background*/
+}
+
+.item:hover{
+  background-size: 120%;
+  /* transition: transform 0.3s ease-in-out; */
+}
+
+.item:nth-child(1){
+  transform: translate(-110%);
+}
+.item:nth-child(2){
+  transform: translate(-40%);
+}
+.item:nth-child(3){
+  transform: translate(70%);
+}
+.item:nth-child(4){
+  transform: translate(180%);
+}
+
+.buttons{
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+}.buttons button{
+
+  height: 50px;
+  width: 50px;
+}

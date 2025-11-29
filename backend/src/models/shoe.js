@@ -5,6 +5,8 @@ const ShoeSchema = new Schema({
     name:String,
     quantity: Number,
     price: Number,
+    discount: Number,
+    rating: Number,
     thum: String,
     pic1:String,
     pic2:String,

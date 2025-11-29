@@ -9,6 +9,7 @@ function AddShoeModal({ show, onClose, onAddShoe }) {
     thum: '',
     description: '',
     price: '',
+    rating: '',
     quantity: '',
     pic1: '',
     pic2: '',
@@ -18,7 +19,9 @@ function AddShoeModal({ show, onClose, onAddShoe }) {
   });
 
   const handleAddShoe = () => {
-    axios.post(`${process.env.REACT_APP_BACKEND_URL}/shoes`, newShoe)
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/shoes`, newShoe,
+      { withCredentials: true }
+    )
       .then(response => {
         onAddShoe(response.data);
         onClose();
@@ -33,6 +36,7 @@ function AddShoeModal({ show, onClose, onAddShoe }) {
       thum: '',
       description: '',
       price: '',
+      rating: '',
       quantity: '',
       pic1: '',
       pic2: '',
@@ -102,6 +106,17 @@ function AddShoeModal({ show, onClose, onAddShoe }) {
               </Form.Group>
             </Col>
           </Row>
+
+          <Form.Group className = "mb-3">
+            <Form.Label>Rating</Form.Label>
+            <Form.Control
+            type = "number"
+            placeholder='Enter rating'
+            value={newShoe.rating}
+            onChange={e => setNewShoe({ ...newShoe, rating: e.target.value})}
+            required
+            />
+          </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label>Description</Form.Label>
