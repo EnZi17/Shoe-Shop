@@ -23,6 +23,24 @@ router.post('/cart', async (req, res)=>{
   }
 });
 
+// Endpoint xóa một item trong giỏ hàng dựa trên _id của document đó
+router.delete('/cart/:id', async (req, res) => {
+  try {
+    const cartItemId = req.params.id; // Lấy id từ URL
+
+    // Tìm và xóa item trong Collection Cart
+    const deletedItem = await Cart.findByIdAndDelete(cartItemId);
+
+    if (!deletedItem) {
+      return res.status(404).json({ message: 'Không tìm thấy sản phẩm trong giỏ' });
+    }
+
+    res.status(200).json({ message: 'Đã xóa thành công' });
+  } catch (error) {
+    res.status(500).json({ message: 'Lỗi server', error });
+  }
+});
+
 //Lấy giỏ hàng
 router.get('/cart/:userId', async(req, res) => {
   try {

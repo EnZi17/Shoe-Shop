@@ -16,15 +16,26 @@ function Cart() {
     if (user) {
       axios.get(`${process.env.REACT_APP_BACKEND_URL}/cart/${user.id}`)
         .then(response => {
-          setCart(response.data);
+            const formattedCart = response.data.map(item => {
+                if (!item.productId) return null; 
+
+                return {
+                  _id: item._id,              
+                  shoeId: item.productId._id, 
+                  name: item.productId.name, 
+                  price: item.productId.price,
+                  thum: item.productId.thum,  
+                  quantity: item.quantity     
+                };
+              }).filter(item => item !== null); 
+
+            setCart(formattedCart);
         })
         .catch(error => {
           console.log('Lỗi lấy giỏ hàng:', error);
         });
     }
-    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
-    setCart(cartItems);
-  }, [user]);
+  }, []);
 
   
 

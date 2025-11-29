@@ -6,9 +6,8 @@ const cors = require('cors');
 const indexRouter = require('./routes/index');
 
 // // Add new imports
-// const authRouter = require('./routes/auth'); // Tạo file này sau
-// const cookieParser = require('cookie-parser'); //thư viện đọc dữ liệu từ request của cookie
-const cartRouter = require('./models/cart');
+const authRouter = require('./routes/auth'); // Tạo file này sau
+const cookieParser = require('cookie-parser'); //thư viện đọc dữ liệu từ request của cookie
 
 const app = express();
 app.use(cors({
@@ -16,7 +15,7 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
-// app.use(cookieParser());
+app.use(cookieParser());
 
 mongoose.connect(process.env.MONGO_URI);
 
@@ -29,8 +28,7 @@ db.once('open', function() {
 });
 
 app.use('/', indexRouter);
-app.use('/', cartRouter);
-// app.use('/auth', authRouter); // Add auth routes
+app.use('/auth', authRouter); // Add auth routes
 
 const PORT =  process.env.PORT||9000;
 

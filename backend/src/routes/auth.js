@@ -51,6 +51,7 @@ router.post('/login', async (req, res) => {
     const { email, password, isAdmin } = req.body;
     console.log('Login attempt:', { email, isAdmin, password });
 
+    //Thong comment 29/11: Chỗ này đăng nhập admin đang dùng ở index.js(login cũ), chỉnh sửa lại cho phù hợp
     // Xử lý đăng nhập admin
     if (isAdmin) {
       if (password === "1") {

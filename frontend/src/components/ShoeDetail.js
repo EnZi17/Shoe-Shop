@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import '../css/ShoeDetail.css';
+import axios from 'axios';
 
 function ShoeDetail() {
   const { id } = useParams(); 
@@ -22,20 +23,28 @@ function ShoeDetail() {
     setSelectedImage(null);
   };
 
-  const addToCart = () => {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const index = cart.findIndex(item => item._id === shoe._id);
+const addToCart = async () => {
+    // 1. Kiểm tra đăng nhập
+    const user = JSON.parse(localStorage.getItem('user'));
 
-    if (index !== -1) {
-      cart[index].quantity += 1; 
-    } else {
-      cart.push({ ...shoe, quantity: 1 }); 
+    if (!user || !user.id) {
+      alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
+      return;
     }
 
-    localStorage.setItem('cart', JSON.stringify(cart));
-    alert(`${shoe.name} has been added to your cart!`);
+    // 2. Gọi API lưu vào Database
+    try {
+      await axios.post(`${process.env.REACT_APP_BACKEND_URL}/cart`, {
+        userId: user.id,
+        productId: shoe._id,
+      });
+      
+      alert(`${shoe.name} đã được thêm vào giỏ hàng thành công!`);
+    } catch (error) {
+      console.error("Lỗi khi thêm vào database:", error);
+      alert("Có lỗi xảy ra khi thêm vào giỏ hàng. Vui lòng thử lại.");
+    }
   };
-
   if (!shoe) {
     return <div>Loading...</div>;
   }
