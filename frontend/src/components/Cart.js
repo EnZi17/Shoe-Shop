@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import {useNavigate} from 'react-router-dom';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import '../css/Cart.css';
@@ -8,12 +9,18 @@ function Cart() {
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
      // Lấy giỏ hàng từ database nếu user đã đăng nhập
-    if (user) {
+    if(!user){
+      alert("Vui lòng đăng nhập");
+      navigate('/login');
+      return;
+    }
+    
       axios.get(`${process.env.REACT_APP_BACKEND_URL}/cart/${user.id}`)
         .then(response => {
             const formattedCart = response.data.map(item => {
@@ -34,22 +41,21 @@ function Cart() {
         .catch(error => {
           console.log('Lỗi lấy giỏ hàng:', error);
         });
-    }
-  }, []);
+  }, [user, navigate]);
 
   
 
   const removeFromCart = (id) => {
-     //Xóa từ database
+     //Gọi Server để xóa
     if (user) {
       axios.delete(`${process.env.REACT_APP_BACKEND_URL}/cart/${id}`)
         .catch(error => {
           console.log('Lỗi xóa từ database:', error);
         });
     }
+    //Server xóa xong thì cập nhật giao diện?
     let updatedCart = cart.filter(item => item._id !== id);
     setCart(updatedCart);
-    localStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
   const getTotalPrice = () => {
@@ -66,19 +72,19 @@ function Cart() {
   
     axios.post(`${process.env.REACT_APP_BACKEND_URL}/orders`, orderData)
       .then(response => {
-        
-        
         const orderId = response.data.orderid;
         const createdAt = response.data.createdAt; 
         localStorage.setItem('orderId', orderId); 
         localStorage.setItem('orderCreatedAt', createdAt); 
         
         setShowModal(false);
-        localStorage.removeItem('cart');
-        setCart([]);
+        setCart([]); //xóa giao diện?
+        alert("Đặt hàng thành công");
+        navigate('/order');
       })
       .catch(error => {
         console.error('Error:', error);
+        alert("Đặt hàng thất bại")
       });
   };
   

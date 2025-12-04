@@ -9,14 +9,17 @@ router.post('/cart', async (req, res)=>{
   try{
     const{userId, productId, quantity = 1} = req.body;
 
-    //tạo đối tượng giỏ hàng
-    const cartItem = new Cart({
-      userId,
-      productId,
-      quantity
-    });
+    // Kiểm tra: Nếu User đó đã có giày này trong giỏ rồi thì chỉ tăng số lượng
+    let cartItem = await Cart.findOne({ userId, productId });
 
-    const saveCart = await cartItem.save();
+
+    if(cartItem) {
+      cartItem.quantity+=1;
+      await cartItem.save(); //lưu vào DB
+    }else{
+      cartItem = new Cart({userId, productId, quantity});
+      await cartItem.save();
+    }
     res.json({message: 'Added to cart ', cartItem});
   } catch(error){
     res.status(500).json({message: 'Error add to cart', error});

@@ -36,7 +36,6 @@ function AddShoeModal({ show, onClose, onAddShoe }) {
       thum: '',
       description: '',
       price: '',
-      rating: '',
       quantity: '',
       pic1: '',
       pic2: '',
@@ -107,16 +106,6 @@ function AddShoeModal({ show, onClose, onAddShoe }) {
             </Col>
           </Row>
 
-          <Form.Group className = "mb-3">
-            <Form.Label>Rating</Form.Label>
-            <Form.Control
-            type = "number"
-            placeholder='Enter rating'
-            value={newShoe.rating}
-            onChange={e => setNewShoe({ ...newShoe, rating: e.target.value})}
-            required
-            />
-          </Form.Group>
 
           <Form.Group className="mb-3">
             <Form.Label>Description</Form.Label>

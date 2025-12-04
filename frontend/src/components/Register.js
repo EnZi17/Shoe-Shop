@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 
 function Register() {
@@ -24,13 +24,19 @@ function Register() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post(
+      console.log('Sending registration data:', formData);
+      
+      // Luôn gửi tới /auth/register (xóa logic isAdmin)
+      const response = await axios.post(
         `${process.env.REACT_APP_BACKEND_URL}/auth/register`,
         formData,
         { withCredentials: true }
       );
+      
+      console.log('Registration response:', response.data);
       navigate('/login');
     } catch (err) {
+      console.error('Registration error:', err.response?.data || err);
       setError(err.response?.data?.message || 'Registration failed');
     }
   };
@@ -78,7 +84,7 @@ function Register() {
                   />
                 </div>
                 <div className="mb-3">
-                  <label className="form-label">Fullname</label>
+                  <label className="form-label">Full Name</label>
                   <input
                     type="text"
                     className="form-control"
@@ -89,7 +95,7 @@ function Register() {
                   />
                 </div>
                 <div className="mb-3">
-                  <label className="form-label">Your number</label>
+                  <label className="form-label">Phone Number</label>
                   <input
                     type="tel"
                     className="form-control"
@@ -110,6 +116,9 @@ function Register() {
                 <button type="submit" className="btn btn-primary w-100">
                   Complete
                 </button>
+                <div className="text-center mt-3">
+                  <p>Already have an account? <Link to="/login">Login here</Link></p>
+                </div>
               </form>
             </div>
           </div>

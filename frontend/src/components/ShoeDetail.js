@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import '../css/ShoeDetail.css';
 import axios from 'axios';
 
 function ShoeDetail() {
   const { id } = useParams(); 
   const [shoe, setShoe] = useState(null);
+  const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
 
   useEffect(() => {
@@ -29,6 +30,7 @@ const addToCart = async () => {
 
     if (!user || !user.id) {
       alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
+      navigate('/login');
       return;
     }
 
@@ -37,6 +39,7 @@ const addToCart = async () => {
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/cart`, {
         userId: user.id,
         productId: shoe._id,
+        quantity: 1
       });
       
       alert(`${shoe.name} đã được thêm vào giỏ hàng thành công!`);
