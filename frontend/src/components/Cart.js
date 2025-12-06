@@ -64,7 +64,7 @@ function Cart() {
 
   const handleSubmit = () => {
     const orderData = {
-      items: cart.map(item => ({ shoeid: item._id, quantity: item.quantity })),
+      items: cart.map(item => ({ shoeid: item.shoeId, quantity: item.quantity })),
       phone,
       address,
       shippingCode: '',
