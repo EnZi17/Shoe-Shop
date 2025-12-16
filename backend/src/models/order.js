@@ -3,6 +3,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const OrderSchema = new Schema({
+  userId: {
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
+    require: true,
+  },
   items: [
     {
       shoeid: { type: String, required: true }, // ID của giày

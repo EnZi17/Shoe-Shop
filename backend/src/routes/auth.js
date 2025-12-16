@@ -7,11 +7,13 @@ router.post('/register', async (req, res) => {
   try {
     const { username, email, password, fullName, phone, address } = req.body;
     console.log('Received registration data:', req.body);
-    
+
+    //check người đky
     const existingUser = await User.findOne({ 
-      $or: [{ email }, { username }] 
+      $or: [{ email }, { username }] //username & email là duy nhất, trùng 1 trong 2 sẽ ko cho đky
     });
     
+    //Kiểm tra đã tồn tại user chưa, có thì dừng
     if (existingUser) {
       return res.status(400).json({ message: 'Username or email already exists' });
     }
@@ -20,14 +22,14 @@ router.post('/register', async (req, res) => {
     const user = new User({ 
       username, 
       email, 
-      password,
+      password, //pass chưa hash, chỉ lưu pass trong ram
       fullName,
       phone,
       address,
       role: 'user'
     });
     
-    await user.save();
+    await user.save(); //lưu user vào DB (chạy )
     console.log('User saved successfully:', user);
 
     res.status(201).json({
@@ -49,9 +51,8 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const { email, password, isAdmin } = req.body;
-    console.log('Login attempt:', { email, isAdmin, password });
+    console.log('Login attempt:', { email, isAdmin });
 
-    //Thong comment 29/11: Chỗ này đăng nhập admin đang dùng ở index.js(login cũ), chỉnh sửa lại cho phù hợp
     // Xử lý đăng nhập admin
     if (isAdmin) {
       if (password === "1") {
@@ -70,11 +71,13 @@ router.post('/login', async (req, res) => {
       return res.status(400).json({ message: 'Email and password required' });
     }
     
+    //tìm user theo email
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
+    //gọi hàm so sánh mật khẩu
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });

@@ -18,7 +18,10 @@ function Footer() {
           </div>
           <div className="col-md-4">
             <h5>Contact Us</h5>
-            <p>Email: vominhthong117@gmail.com</p>
+            <p>Email: vominhthong117@gmail.com
+                     leduykhangdng2004@gmail.com
+            </p>
+             
             <p>Phone: 0357 456 6624</p>
             <p>Address: Trường Đại Học Công Nghệ Thông Tin Và Truyền Thông Việt Hàn - Đà Nẵng</p>
           </div>

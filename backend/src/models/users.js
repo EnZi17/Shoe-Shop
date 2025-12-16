@@ -5,14 +5,14 @@ const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
-    unique: true,
+    unique: true, //giá trị username chỉ xuất hiện duy nhất 1 lần 
     trim: true,
     minlength: 3 //>= 3 kí tự
   },
   email: {
     type: String,
     required: true,
-    unique: true,
+    unique: true, //
     trim: true,
     lowercase: true
   },
@@ -46,10 +46,10 @@ const userSchema = new mongoose.Schema({
 });
 
 // Hash password trước khi lưu
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function(next) { //
   if (!this.isModified('password')) return next(); //mk chưa thay đổi thì return
   this.password = await bcrypt.hash(this.password, 10); //có thay đổi(hoặc tạo mới user), hash mk có độ mạnh salt = 10
-  next();
+  next(); //tiếp tục thao tác save
 });
 
 // Method kiểm tra password

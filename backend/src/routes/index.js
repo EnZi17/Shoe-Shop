@@ -92,10 +92,11 @@ router.delete('/orders/:id', async (req, res) => {
 // POST /orders
 router.post('/orders', async (req, res) => { //tạo đơn hàng
   try {
-    const { items, phone, address, shippingCode } = req.body;
+    const { items, phone, address, shippingCode, userId } = req.body;
 
     // Tạo đối tượng đơn hàng
     const order = new Order({
+      userId,
       items,
       phone,
       address,
@@ -146,7 +147,18 @@ router.get('/orders',  async (req, res) => {
   }
 });
 
-
+//GET /orders/user/:userId lấy đơn theo userId
+router.get('/orders/user/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const orders = await Order.find({ userId })
+      .populate('items.shoeid')
+      .sort({ createdAt: -1 });
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching user orders', error });
+  }
+});
 // Endpoint cập nhật giày
 router.put('/shoes/:id', async (req, res) => {
   try {
@@ -171,9 +183,10 @@ router.post('/shoes',  async (req, res) => {
 
 // Endpoint tìm kiếm giày theo ID
 router.get('/shoes/:id', async (req, res) => {
+  const { id } = req.params;
   try {
-    const shoe = await Shoe.findById(req.params.id);
-    if (!shoe) return res.status(404).send('Shoe not found');
+    const shoe = await Shoe.findById(id);
+    if (!shoe) return res.status(404).send('Cannot get Shoe not found');
     res.json(shoe);
   } catch (err) {
     res.status(500).send(err);

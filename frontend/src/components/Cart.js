@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.min.css'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import '../css/Cart.css';
 
 function Cart() {
@@ -14,48 +14,53 @@ function Cart() {
   const user = JSON.parse(localStorage.getItem('user'));
 
   useEffect(() => {
-     // Lấy giỏ hàng từ database nếu user đã đăng nhập
-    if(!user){
+    // Lấy giỏ hàng từ database nếu user đã đăng nhập
+    if (!user) {
       alert("Vui lòng đăng nhập");
       navigate('/login');
       return;
     }
-    
-      axios.get(`${process.env.REACT_APP_BACKEND_URL}/cart/${user.id}`)
-        .then(response => {
-            const formattedCart = response.data.map(item => {
-                if (!item.productId) return null; 
 
-                return {
-                  _id: item._id,              
-                  shoeId: item.productId._id, 
-                  name: item.productId.name, 
-                  price: item.productId.price,
-                  thum: item.productId.thum,  
-                  quantity: item.quantity     
-                };
-              }).filter(item => item !== null); 
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/cart/${user.id}`)
+      .then(response => {
+        const formattedCart = response.data.map(item => {
+          if (!item.productId) return null;
 
-            setCart(formattedCart);
-        })
-        .catch(error => {
-          console.log('Lỗi lấy giỏ hàng:', error);
-        });
+          return {
+            _id: item._id,
+            shoeId: item.productId._id,
+            name: item.productId.name,
+            price: item.productId.price,
+            thum: item.productId.thum,
+            quantity: item.quantity
+          };
+        }).filter(item => item !== null);
+
+        setCart(formattedCart);
+      })
+      .catch(error => {
+        console.log('Lỗi lấy giỏ hàng:', error);
+      });
   }, [user, navigate]);
 
-  
+
 
   const removeFromCart = (id) => {
-     //Gọi Server để xóa
+    //Gọi Server để xóa
     if (user) {
       axios.delete(`${process.env.REACT_APP_BACKEND_URL}/cart/${id}`)
+        .then(response => {
+          //Server xóa xong thì cập nhật giao diện
+          //filter(array): lọc sản phẩm, đủ điều kiện thì cho vào mảng mới
+          let updatedCart = cart.filter(item => item._id !== id);
+          setCart(updatedCart);
+        })
         .catch(error => {
           console.log('Lỗi xóa từ database:', error);
+          alert("Có lỗi xảy ra, không thể xóa sản phẩm");
         });
     }
-    //Server xóa xong thì cập nhật giao diện?
-    let updatedCart = cart.filter(item => item._id !== id);
-    setCart(updatedCart);
+
   };
 
   const getTotalPrice = () => {
@@ -64,19 +69,20 @@ function Cart() {
 
   const handleSubmit = () => {
     const orderData = {
+      userId: user.id,
       items: cart.map(item => ({ shoeid: item.shoeId, quantity: item.quantity })),
       phone,
       address,
       shippingCode: '',
     };
-  
+
     axios.post(`${process.env.REACT_APP_BACKEND_URL}/orders`, orderData)
       .then(response => {
         const orderId = response.data.orderid;
-        const createdAt = response.data.createdAt; 
-        localStorage.setItem('orderId', orderId); 
-        localStorage.setItem('orderCreatedAt', createdAt); 
-        
+        const createdAt = response.data.createdAt;
+        localStorage.setItem('orderId', orderId);
+        localStorage.setItem('orderCreatedAt', createdAt);
+
         setShowModal(false);
         setCart([]); //xóa giao diện?
         alert("Đặt hàng thành công");
@@ -87,7 +93,7 @@ function Cart() {
         alert("Đặt hàng thất bại")
       });
   };
-  
+
 
   return (
     <div className="container my-4">
@@ -118,7 +124,7 @@ function Cart() {
         </div>
       )}
 
-      {}
+      { }
       {showModal && (
         <div className="modal show d-block">
           <div className="modal-dialog">

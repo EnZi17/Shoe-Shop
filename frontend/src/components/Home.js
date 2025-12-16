@@ -6,7 +6,7 @@ import '../css/Home.css';
 const images = ['1.jpg', '3.jpg', '4.jpg', '5.jpg'];
 
 function Home() {
-  // 1. LOGIC SLIDE (Giữ nguyên)
+  //LOGIC SLIDE
   const [index, setIndex] = useState(0);
   useEffect(() => {
     const timer = setInterval(() => {
@@ -18,7 +18,7 @@ function Home() {
   const nextSlide = () => setIndex((prev) => (prev + 1) % images.length);
   const prevSlide = () => setIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
 
-  // 2. STATE DỮ LIỆU
+  //STATE DỮ LIỆU
   const [shoes, setShoes] = useState([]); // Dữ liệu chính (có phân trang)
   const [bestShoes, setBestShoes] = useState([]); // Dữ liệu Best Product (cố định)
   
@@ -27,7 +27,7 @@ function Home() {
   const [totalPages, setTotalPages] = useState(1);
   const shoesPerPage = 8;
 
-  // --- EFFECT 1: Lấy Best Product (CHỈ CHẠY 1 LẦN) ---
+  //  Lấy Best Product 
   useEffect(() => {
     // Gọi API lấy 5 đôi đầu tiên làm Best Product
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shoes?limit=5`)
@@ -38,7 +38,7 @@ function Home() {
       .catch(err => console.error(err));
   }, []); // [] rỗng => Chỉ chạy đúng 1 lần khi vào web
 
-  // --- EFFECT 2: Lấy danh sách chính (CHẠY KHI ĐỔI TRANG/SEARCH) ---
+  //Lấy danh sách chính (CHẠY KHI ĐỔI TRANG/SEARCH)
   useEffect(() => {
     const fetchData = async () => {
       try {
