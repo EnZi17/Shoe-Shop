@@ -3,7 +3,12 @@ const Schema = mongoose.Schema
 
 const ShoeSchema = new Schema({
     name:String,
-    quantity: Number,
+    quantity: {
+        type : Number,
+        required : true,
+        default : 0,
+        min : 0
+    },
     price: Number,
     thum: String,
     pic1:String,
@@ -12,7 +17,7 @@ const ShoeSchema = new Schema({
     pic4:String,
     pic5:String,
     description:String,
-})
+});
 
 const Shoe = mongoose.model('Shoe',ShoeSchema)
 

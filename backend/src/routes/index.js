@@ -93,6 +93,17 @@ router.delete('/orders/:id', async (req, res) => {
 router.post('/orders', async (req, res) => { //tạo đơn hàng
   try {
     const { items, phone, address, shippingCode, userId } = req.body;
+    
+    if(items && items.length > 0){
+      for(const item of items) {
+        const productDB = await Shoe.findById(item.shoeid);
+        if(!productDB || productDB.quantity < item.quantity){
+          return res.status(400).json({
+            message: `The product ${productDB ? productDB.name : 'is'} out of stock`
+          });
+        }
+      }
+    }
 
     // Tạo đối tượng đơn hàng
     const order = new Order({
@@ -105,6 +116,21 @@ router.post('/orders', async (req, res) => { //tạo đơn hàng
 
     // Lưu đơn hàng vào cơ sở dữ liệu
     const savedOrder = await order.save();
+
+    //Trừ hàng tồn kho 
+    if (items && items.length > 0) {
+      for (const item of items) { //chạy vòng lặp qua giày
+         // Tìm giày theo ID và trừ đi số lượng (quantity)
+         await Shoe.findByIdAndUpdate(item.shoeid, { 
+            $inc: { quantity: -item.quantity } //increment dùng để cộng dồn
+         });
+      }
+    }
+
+    //Xóa sạch giỏ hàng của user này sau khi mua xong
+    if (userId) {
+      await Cart.deleteMany({ userId: userId });
+    }
 
     // Trả về thông tin đơn hàng, bao gồm cả ngày giờ tạo
     res.status(201).json({
