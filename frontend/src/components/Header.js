@@ -43,6 +43,11 @@ function Header() {
             {user ? (
               <>
               <span className='nav-link text-primary fw-bold'>{user.fullName}</span>
+              {user.role === 'admin' && (
+                <Link className="btn btn-danger btn-sm mx-2" to="/admin">
+                   Admin Dashboard
+              </Link>
+              )}
               <Link className="nav-link" to="/order">Order</Link>
               <button 
                   className="btn btn-link nav-link" 

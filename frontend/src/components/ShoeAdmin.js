@@ -11,15 +11,15 @@ function ShoeAdmin() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  
+
   const [editShoe, setEditShoe] = useState(null);
   const [shoeToDelete, setShoeToDelete] = useState(null);
-  
+
   // State xử lý nhập mã vận đơn
-  const [shippingCode, setShippingCode] = useState(''); 
+  const [shippingCode, setShippingCode] = useState('');
 
   //GỌI API LẤY DỮ LIỆU
-  
+
   // Hàm lấy giày
   const loadShoes = async () => {
     try {
@@ -27,11 +27,11 @@ function ShoeAdmin() {
       // Kiểm tra dữ liệu trả về để set state an toàn
       const data = res.data;
       if (data.shoes && Array.isArray(data.shoes)) {
-         setShoes(data.shoes);
+        setShoes(data.shoes);
       } else if (Array.isArray(data)) {
-         setShoes(data);
+        setShoes(data);
       } else {
-         setShoes([]);
+        setShoes([]);
       }
     } catch (error) {
       console.error('Error loading shoes:', error);
@@ -89,7 +89,7 @@ function ShoeAdmin() {
   //CÁC HÀM XỬ LÝ ĐƠN HÀNG (ORDERS)
 
   const handleDeleteOrder = async (orderId) => {
-    if(!window.confirm("Bạn có chắc muốn xóa đơn hàng này?")) return;
+    if (!window.confirm("Bạn có chắc muốn xóa đơn hàng này?")) return;
     try {
       await axios.delete(`${process.env.REACT_APP_BACKEND_URL}/orders/${orderId}`);
       loadOrders(); // Load lại bảng order
@@ -113,7 +113,7 @@ function ShoeAdmin() {
   return (
     <div className="container mt-4">
       <h1 className="mb-4">Admin Dashboard</h1>
-      
+
       <Button variant="primary" className="mb-3" onClick={() => setShowAddModal(true)}>
         Add New Shoe
       </Button>
@@ -134,7 +134,15 @@ function ShoeAdmin() {
             <tr key={shoe._id}>
               <td>{shoe.name}</td>
               <td>${shoe.price}</td>
-              <td>{shoe.quantity}</td>
+              <td>
+                {shoe.quantity === 0 ? (
+                  <span className="badge bg-danger">HẾT HÀNG</span>
+                ) : shoe.quantity < 5 ? (
+                  <span className="text-danger fw-bold">{shoe.quantity} (Sắp hết)</span>
+                ) : (
+                  <span className="text-success fw-bold">{shoe.quantity}</span>
+                )}
+              </td>
               <td>
                 <Button variant="warning" size="sm" className="me-2" onClick={() => {
                   setEditShoe(shoe);
@@ -171,7 +179,7 @@ function ShoeAdmin() {
                 <div><strong>Phone:</strong> {order.phone}</div>
                 <div><strong>Addr:</strong> {order.address}</div>
               </td>
-              
+
               {/* Hiển thị chi tiết sản phẩm trong đơn */}
               <td>
                 {order.items.map((item, idx) => {
@@ -180,10 +188,10 @@ function ShoeAdmin() {
                   return (
                     <div key={idx} className="d-flex align-items-center mb-1">
                       {shoeInfo && (
-                        <img src={shoeInfo.thum} alt="" style={{width: '30px', marginRight: '5px'}}/>
+                        <img src={shoeInfo.thum} alt="" style={{ width: '30px', marginRight: '5px' }} />
                       )}
                       <small>
-                        {shoeInfo ? shoeInfo.name : 'Unknown Shoe'} 
+                        {shoeInfo ? shoeInfo.name : 'Unknown Shoe'}
                         <span className="fw-bold"> (x{item.quantity})</span>
                       </small>
                     </div>
@@ -194,28 +202,28 @@ function ShoeAdmin() {
               {/* Cột nhập mã vận đơn */}
               <td>
                 {order.shippingCode ? (
-                    <span className="text-success fw-bold">{order.shippingCode}</span>
+                  <span className="text-success fw-bold">{order.shippingCode}</span>
                 ) : (
-                    <div className="d-flex">
-                        <Form.Control 
-                        size="sm"
-                        type="text" 
-                        placeholder="Code..." 
-                        onChange={(e) => setShippingCode(e.target.value)} 
-                        />
-                        <Button size="sm" variant="success" className="ms-1" 
-                                onClick={() => handleConfirmShippingCode(order._id)}>
-                            OK
-                        </Button>
-                    </div>
+                  <div className="d-flex">
+                    <Form.Control
+                      size="sm"
+                      type="text"
+                      placeholder="Code..."
+                      onChange={(e) => setShippingCode(e.target.value)}
+                    />
+                    <Button size="sm" variant="success" className="ms-1"
+                      onClick={() => handleConfirmShippingCode(order._id)}>
+                      OK
+                    </Button>
+                  </div>
                 )}
               </td>
-              
+
               <td><small>{new Date(order.createdAt).toLocaleDateString()}</small></td>
-              
+
               <td>
                 <Button variant="danger" size="sm" onClick={() => handleDeleteOrder(order._id)}>
-                    Del
+                  Del
                 </Button>
               </td>
             </tr>
@@ -225,20 +233,20 @@ function ShoeAdmin() {
 
       {/* CÁC MODAL */}
       <AddShoeModal show={showAddModal} onClose={() => setShowAddModal(false)} onAddShoe={handleAddShoe} />
-      
+
       {showEditModal && (
-        <EditShoeModal 
-          show={showEditModal} 
-          onClose={() => setShowEditModal(false)} 
-          shoe={editShoe} 
-          onSave={handleEditShoe} 
+        <EditShoeModal
+          show={showEditModal}
+          onClose={() => setShowEditModal(false)}
+          shoe={editShoe}
+          onSave={handleEditShoe}
         />
       )}
 
-      <ConfirmationModal 
-        show={showConfirmModal} 
-        onClose={() => setShowConfirmModal(false)} 
-        onConfirm={handleDeleteShoe} 
+      <ConfirmationModal
+        show={showConfirmModal}
+        onClose={() => setShowConfirmModal(false)}
+        onConfirm={handleDeleteShoe}
       />
     </div>
   );

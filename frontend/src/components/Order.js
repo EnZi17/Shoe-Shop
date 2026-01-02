@@ -82,10 +82,10 @@ function Order() {
 
   return (
     <div className="container my-4">
-      <h1 className="mb-4">Lịch sử đơn hàng</h1>
+      <h1 className="mb-4">Order history</h1>
       
       {loading ? (
-        <p>Đang tải...</p>
+        <p>Loading...</p>
       ) : error ? (
         <p className="text-danger">{error}</p>
       ) : orders.length > 0 ? (
@@ -102,13 +102,13 @@ function Order() {
               </tr>
             </thead>
             <tbody>
-              {/* QUAN TRỌNG: Dùng .map() để duyệt qua từng đơn hàng trong mảng */}
+              {/* Dùng .map() để duyệt qua từng đơn hàng trong mảng */}
               {orders.map((singleOrder) => (
                 <tr key={singleOrder._id}>
                   <td>{singleOrder._id.slice(-6).toUpperCase()}</td>
                   <td>
-                    <div><strong>SĐT:</strong> {singleOrder.phone}</div>
-                    <div><strong>ĐC:</strong> {singleOrder.address}</div>
+                    <div><strong>Phone:</strong> {singleOrder.phone}</div>
+                    <div><strong>Address:</strong> {singleOrder.address}</div>
                   </td>
                   
                   {/* Tính tiền cho từng đơn hàng */}
@@ -134,7 +134,7 @@ function Order() {
                             </small>
                           </>
                         ) : (
-                          <small>Đang tải giày...</small>
+                          <small>Loading shoes...</small>
                         )}
                       </div>
                     ))}
@@ -144,8 +144,8 @@ function Order() {
                   
                   <td>
                     {singleOrder.shippingCode ? 
-                        <span className="badge bg-success">Đã giao</span> : 
-                        <span className="badge bg-warning text-dark">Đang xử lý</span>
+                        <span className="badge bg-success">Delivered</span> : 
+                        <span className="badge bg-warning text-dark">Processing</span>
                     }
                   </td>
                 </tr>
@@ -154,7 +154,7 @@ function Order() {
           </table>
         </div>
       ) : (
-        <div className="alert alert-info">Bạn chưa có đơn hàng nào.</div>
+        <div className="alert alert-info">You don't have any orders yet.</div>
       )}
     </div>
   );

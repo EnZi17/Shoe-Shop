@@ -90,7 +90,12 @@ function Cart() {
       })
       .catch(error => {
         console.error('Error:', error);
-        alert("Đặt hàng thất bại")
+        if (error.response && error.response.data && error.response.data.message){
+          alert(error.response.data.message);
+        }
+        else{
+        alert("Đặt hàng thất bại");
+        }
       });
   };
 

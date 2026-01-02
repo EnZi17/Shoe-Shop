@@ -29,7 +29,7 @@ const addToCart = async () => {
     const user = JSON.parse(localStorage.getItem('user'));
 
     if (!user || !user.id) {
-      alert("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
+      alert("Please Login to order!");
       navigate('/login');
       return;
     }
