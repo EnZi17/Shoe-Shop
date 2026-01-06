@@ -115,3 +115,17 @@
   border-color: #007bff; /* Thay đổi màu viền khi focus */
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Thêm hiệu ứng box-shadow */
 }
+
+/* 1. Thiết lập chiều cao tối thiểu cho toàn bộ ứng dụng */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* 100vh = 100% chiều cao màn hình trình duyệt */
+}
+
+/* 2. Phần nội dung chính sẽ tự động phình to ra để đẩy Footer xuống */
+.main-content {
+  flex: 1;
+  /* Thêm padding nếu cần thiết để nội dung không dính sát lề */
+  padding-bottom: 20px; 
+}

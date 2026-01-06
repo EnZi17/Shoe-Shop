@@ -19,7 +19,7 @@ function Header() {
     localStorage.removeItem('orderId');
     navigate('/login');
     window.location.reload();
-    alert(` Người dùng ${user.fullName || user.username} đã đăng xuất`);
+    alert(` User ${user.fullName || user.username} has logged out.`);
   }
 
   useEffect(() => {

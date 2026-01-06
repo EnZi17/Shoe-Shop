@@ -8,6 +8,7 @@ function ShoeDetail() {
   const [shoe, setShoe] = useState(null);
   const navigate = useNavigate();
   const [selectedImage, setSelectedImage] = useState(null);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     fetch(`${process.env.REACT_APP_BACKEND_URL}/shoes/${id}`)
@@ -39,10 +40,11 @@ const addToCart = async () => {
       await axios.post(`${process.env.REACT_APP_BACKEND_URL}/cart`, {
         userId: user.id,
         productId: shoe._id,
-        quantity: 1
+        quantity: quantity
       });
       
       alert(`${shoe.name} đã được thêm vào giỏ hàng thành công!`);
+      navigate('/cart');
     } catch (error) {
       console.error("Lỗi khi thêm vào database:", error);
       alert("Có lỗi xảy ra khi thêm vào giỏ hàng. Vui lòng thử lại.");
@@ -96,6 +98,17 @@ const addToCart = async () => {
           <p><strong>Price:</strong> ${shoe.price}</p>
           <p><strong>Quantity:</strong> {shoe.quantity}</p> {}
           <p><strong>Description:</strong> {shoe.description}</p>
+          <div className="mb-3">
+             <label className="mr-2">Purchase quantity: </label>
+             <input 
+                type="number" 
+                className="form-control d-inline-block" 
+                style={{ width: '80px', marginLeft: '10px' }}
+                value={quantity}
+                min="1" 
+                onChange={(e) => setQuantity(parseInt(e.target.value))} // Cập nhật số lượng
+             />
+          </div>
           <button className="btn btn-primary" onClick={addToCart}>Add to Cart</button>
         </div>
       </div>

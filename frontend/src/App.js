@@ -16,8 +16,9 @@ import './App.css';
 function App() {
   return (
     <Router>
+      <div className="app-container">
       <Header />
-      <main id="root">
+      <main id="main-content">
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
@@ -34,6 +35,8 @@ function App() {
         </Routes>
       </main>
       <Footer />
+
+      </div>
     </Router>
   );
 }

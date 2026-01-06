@@ -14,24 +14,25 @@ const Login = () => {
 
     const handleChange = (e) => {
         setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
+            ...formData, //giữ các giá trị cũ
+            [e.target.name]: e.target.value// e.target.name: là tên của ô input, e.target.value: là chữ người dùng gõ vào
         });
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // ko bị f5 lại
         try {
             // Tạo login data đúng
             let loginData;
             if (isAdmin) {
-                // Admin chỉ cần mật khẩu
+                // Admin 
                 loginData = { 
+                    email: formData.email,
                     password: formData.password, 
                     isAdmin: true 
                 };
             } else {
-                // User cần email và password
+                // User 
                 loginData = { 
                     email: formData.email, 
                     password: formData.password, 
@@ -59,17 +60,17 @@ const Login = () => {
                 localStorage.setItem('user', JSON.stringify(response.data.user));
 
                 if (response.data.user.role === 'admin') { 
-                    alert('Đăng nhập admin thành công');
+                    alert('Admin login successful.');
                     navigate('/admin');
                 } else {
-                    alert(`Đăng nhập thành công! Chào ${formData.email}`);
+                    alert(`Login successful! Hello ${formData.email}`);
                     navigate('/');
                 }
             }
         } catch (err) {
             console.error('Login error:', err.response?.data || err);
             setError(err.response?.data?.message || 'Login failed');
-            alert(' Đăng nhập thất bại! Vui lòng kiểm tra lại thông tin.');
+            alert('Login failed! Please double-check your information.');
         }
     };
 
@@ -78,7 +79,7 @@ const Login = () => {
             <div className="login-box">
                 <h2>{isAdmin ? 'Admin Login' : 'User Login'}</h2>
                 <form onSubmit={handleSubmit}>
-                    {!isAdmin && (
+                    
                         <div className="form-group">
                             <label>Email:</label>
                             <input
@@ -86,10 +87,10 @@ const Login = () => {
                                 name="email"
                                 value={formData.email}
                                 onChange={handleChange}
-                                required={!isAdmin}
+                                required
                             />
                         </div>
-                    )}
+                  
                     <div className="form-group">
                         <label>Password:</label>
                         <input
