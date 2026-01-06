@@ -25,14 +25,13 @@ const Login = () => {
             // Tạo login data đúng
             let loginData;
             if (isAdmin) {
-                // Admin 
+                // Admin chỉ cần mật khẩu
                 loginData = { 
-                    email: formData.email,
                     password: formData.password, 
                     isAdmin: true 
                 };
             } else {
-                // User 
+                // User cần email và password
                 loginData = { 
                     email: formData.email, 
                     password: formData.password, 
@@ -79,7 +78,7 @@ const Login = () => {
             <div className="login-box">
                 <h2>{isAdmin ? 'Admin Login' : 'User Login'}</h2>
                 <form onSubmit={handleSubmit}>
-                    
+                    {!isAdmin && (
                         <div className="form-group">
                             <label>Email:</label>
                             <input
@@ -87,10 +86,10 @@ const Login = () => {
                                 name="email"
                                 value={formData.email}
                                 onChange={handleChange}
-                                required
+                                required={!isAdmin}
                             />
                         </div>
-                  
+                    )}
                     <div className="form-group">
                         <label>Password:</label>
                         <input
