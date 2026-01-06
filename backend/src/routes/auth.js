@@ -54,16 +54,10 @@ router.post('/login', async (req, res) => {
     console.log('Login attempt:', { email, isAdmin });
 
     // Xử lý đăng nhập admin
-    if (isAdmin) {
-      if (password === "1") {
-        return res.json({
-          message: 'Admin login successful',
-          user: {
-            role: 'admin'
-          }
-        });
-      }
-      return res.status(401).json({ message: 'Invalid admin credentials' });
+    if(isAdmin && user.role !== 'admin') {
+      return res.status(403).json({
+        message: 'You do not have access to the Admin page!'
+      });
     }
 
     // Xử lý đăng nhập user thông thường
@@ -78,8 +72,8 @@ router.post('/login', async (req, res) => {
     }
 
     //gọi hàm so sánh mật khẩu
-    const isMatch = await user.comparePassword(password);
-    if (!isMatch) {
+    const checkPassword = await user.comparePassword(password);
+    if (!checkPassword) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
